@@ -908,9 +908,6 @@ h1{
       <div class="countdown-box"><span class="countdown-number" id="cdY">0</span><div class="countdown-label">Years</div></div>
       <div class="countdown-box"><span class="countdown-number" id="cdMo">0</span><div class="countdown-label">Months</div></div>
       <div class="countdown-box"><span class="countdown-number" id="cdD">0</span><div class="countdown-label">Days</div></div>
-      <div class="countdown-box"><span class="countdown-number" id="cdH">0</span><div class="countdown-label">Hours</div></div>
-      <div class="countdown-box"><span class="countdown-number" id="cdMi">0</span><div class="countdown-label">Mins</div></div>
-      <div class="countdown-box"><span class="countdown-number" id="cdS">0</span><div class="countdown-label">Secs</div></div>
     </div>
   </div>
 
@@ -950,7 +947,7 @@ h1{
 // ── Her birthday ──────────────────────────────────────
 // Format: new Date(YEAR, MONTH-1, DAY, HOUR, MIN)
 // e.g. born 15 March 2007 at 10:30am → new Date(2007, 2, 15, 10, 30)
-const BIRTHDAY = new Date(2008, 3, 30, 12, 0);   // ← CHANGE THIS
+const BIRTHDAY = new Date(2008, 2, 30);   // ← CHANGE THIS
 
 // ── Apology GIFs (add as many as you want) ────────────
 // Every GIF plays once before any repeat (shuffle mode).
@@ -975,6 +972,12 @@ const QUOTES = [
   "You deserve every beautiful thing this world has to offer 💖",
   "I noticed you. I always will. 💓",
 ];
+
+// Preload all GIFs into browser cache on page load
+NO_GIFS.forEach(url => {
+    const img = new Image();
+    img.src = url;
+});
 
 // ── Wishing star messages ──────────────────────────────
 const WISHES = [
@@ -1054,7 +1057,7 @@ function forgiveMeNo(){
   setTimeout(()=>{
     msg.textContent = NO_MSGS[noCount % NO_MSGS.length];
     msg.style.transition='opacity .3s';msg.style.opacity='1';
-    gif.src = nextGif()+'?cb='+Date.now();
+    gif.src = nextGif();
     gif.style.transition='opacity .3s';gif.style.opacity='1';
   },270);
 
@@ -1071,35 +1074,34 @@ function forgiveMeNo(){
    get hours/mins/secs from remaining ms.
 ══════════════════════════════════════════════════ */
 function getElapsed(){
-  const now  = new Date();
-  const b    = new Date(BIRTHDAY);
+  const now = new Date();
+  const b   = new Date(BIRTHDAY);
 
   let yr = now.getFullYear() - b.getFullYear();
   let mo = now.getMonth()    - b.getMonth();
   let da = now.getDate()     - b.getDate();
 
-  // borrow day
-  if(da < 0){
-    mo--;
-    // days in the month that just rolled back (leap-aware via Date API)
-    da += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-  }
-  // borrow month
+  if(da < 0) mo--;
   if(mo < 0){ yr--; mo += 12; }
 
-  // build the exact datetime that is (yr years, mo months, da days) after birth
-  const anchor = new Date(b);
-  anchor.setFullYear(anchor.getFullYear() + yr);
-  anchor.setMonth  (anchor.getMonth()    + mo);
-  anchor.setDate   (anchor.getDate()     + da);
+  // Build anchor date (yr years + mo months after birthday)
+  // and CLAMP the day in case birth day doesn't exist in that month
+  // e.g. born 30th March → anchor in February clamps to 28th
+  const anchorY = b.getFullYear() + yr;
+  const anchorM = b.getMonth()    + mo;   // may exceed 11 — JS handles it
 
-  // remaining ms → sub-day components
-  const rem = now - anchor;         // ms
-  const hr  = Math.floor(rem / 3600000);
-  const mi  = Math.floor((rem % 3600000) / 60000);
-  const sc  = Math.floor((rem % 60000)   / 1000);
+  const realYear  = anchorY + Math.floor(anchorM / 12);
+  const realMonth = anchorM % 12;
 
-  return { yr, mo, da, hr, mi, sc };
+  const daysInAnchorMonth = new Date(realYear, realMonth + 1, 0).getDate();
+  const clampedDay        = Math.min(b.getDate(), daysInAnchorMonth);
+
+  const anchor     = new Date(realYear, realMonth, clampedDay);
+  const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  da = Math.round((nowMidnight - anchor) / 86400000);
+
+  return { yr, mo, da };
 }
 
 function updateCounter(){
@@ -1107,12 +1109,10 @@ function updateCounter(){
   document.getElementById('cdY').textContent  = e.yr;
   document.getElementById('cdMo').textContent = e.mo;
   document.getElementById('cdD').textContent  = e.da;
-  document.getElementById('cdH').textContent  = e.hr;
-  document.getElementById('cdMi').textContent = String(e.mi).padStart(2,'0');
-  document.getElementById('cdS').textContent  = String(e.sc).padStart(2,'0');
 }
+
 updateCounter();
-setInterval(updateCounter,1000);
+setInterval(updateCounter,60000);
 
 // Letter date
 document.getElementById('letterDate').textContent =
