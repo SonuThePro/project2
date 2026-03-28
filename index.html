@@ -253,12 +253,6 @@ h1{
 /* ══════════════════════════════════════════
    REALISTIC ENVELOPE
 ══════════════════════════════════════════ */
-/* Tap-outside backdrop */
-#letterBackdrop{
-  display:none;position:fixed;inset:0;z-index:88;
-}
-#letterBackdrop.active{display:block}
-
 .envelope-section{position:relative;z-index:90}
 
 .envelope-container{
@@ -662,8 +656,7 @@ h1{
 
 <canvas id="particlesCanvas"></canvas>
 
-<!-- Backdrop: tap outside to close letter -->
-<div id="letterBackdrop" onclick="closeEnvelope()"></div>
+
 
 <!-- ═══════════════════════════════════════
      APOLOGY OVERLAY
@@ -716,7 +709,7 @@ h1{
         <div class="env-top"></div>
         <div class="env-seal">💖</div>
 
-        <div class="letter" ontouchstart="event.stopPropagation()" ontouchmove="event.stopPropagation()" ontouchend="event.stopPropagation()">
+        <div class="letter">
           <div class="letter-hearts">
             <span style="top:7%;left:4%">💕</span>
             <span style="top:10%;right:5%;animation-delay:.6s">💗</span>
@@ -1148,13 +1141,11 @@ function toggleEnvelope(){ envOpen ? closeEnvelope() : openEnvelope(); }
 function openEnvelope(){
   envOpen=true;
   document.getElementById('envelope').classList.add('open');
-  document.getElementById('letterBackdrop').classList.add('active');
   spawnHearts(22);
 }
 function closeEnvelope(){
   envOpen=false;
   document.getElementById('envelope').classList.remove('open');
-  document.getElementById('letterBackdrop').classList.remove('active');
   document.getElementById('letterSecret').classList.remove('visible');
 }
 function revealSecret(e){
