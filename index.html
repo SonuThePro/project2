@@ -359,7 +359,7 @@ h1{
   transition:
     transform .95s cubic-bezier(.22,1,.36,1),
     opacity .35s ease;
-  z-index:3;overflow: hidden;
+  z-index:3;overflow:hidden;
 }
 .envelope-wrap.open .letter{
   /* slide up so it appears above the envelope */
@@ -375,6 +375,7 @@ h1{
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  touch-action: pan-y;
   background:
     repeating-linear-gradient(
       transparent,transparent 27px,
@@ -421,6 +422,18 @@ h1{
 .letter-hint{
   text-align:center;font-size:.8rem;
   color:rgba(255,255,255,.6);font-style:italic;margin-bottom:1.1rem;
+}
+.letter-reveal-btn{
+  margin-top:1rem;
+  text-align:center;
+  font-family:'Dancing Script',cursive;
+  font-size:1rem;
+  color:#c44b82;
+  cursor:pointer;
+  padding:.5rem;
+  border-top:1px dashed rgba(200,150,150,.35);
+  user-select:none;
+  -webkit-user-select:none;
 }
 
 /* ══════════════════════════════════════════
@@ -703,7 +716,7 @@ h1{
         <div class="env-top"></div>
         <div class="env-seal">💖</div>
 
-        <div class="letter" onclick="revealSecret(event)">
+        <div class="letter">
           <div class="letter-hearts">
             <span style="top:7%;left:4%">💕</span>
             <span style="top:10%;right:5%;animation-delay:.6s">💗</span>
@@ -733,6 +746,7 @@ h1{
               <!-- ✏️ END SECRET ✏️ -->
             </div>
             <div class="letter-sign">With all my love,<br>— [Sarvesh] 💕</div>
+            <div class="letter-reveal-btn" onclick="revealSecret(event)">💌 Tap to reveal a secret…</div>
           </div>
         </div>
       </div>
@@ -1319,6 +1333,8 @@ setTimeout(launchComet, 3500);
    TAP SPARKLE (touch anywhere = sparkle burst)
 ══════════════════════════════════════════════════ */
 document.addEventListener('touchstart', e=>{
+  // Don't fire sparkles when the user is scrolling the letter
+  if(e.target.closest('.letter-paper')) return;
   const t=e.touches[0];
   const gems=['✨','💫','⭐','🌟','💕','🌸'];
   for(let i=0;i<7;i++){
