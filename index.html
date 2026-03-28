@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday! ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Caveat:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+/* ─── VARIABLES ─── */
+:root{
+  --pink:#ff6b9d;--dpink:#c44b82;--purple:#764ba2;
+  --lpink:#ffd4e5;
+  --env-body:#f9c8de;--env-side:#e488b4;
+  --env-bot:#cc6699;--env-top:#f0a8c8;
+}
+
+/* ─── BASE ─── */
+body{
+  min-height: -webkit-fill-available;
+  font-family:'Lora',Georgia,serif;
+  color:#fff;overflow-x:hidden;
+  background:#1a0a2e;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:linear-gradient(45deg,#667eea,#764ba2,#f093fb,#4facfe);
+  background-size:400% 400%;
+  animation:gradShift 15s ease infinite;z-index:-1;
+}
+@keyframes gradShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ─── PARTICLES ─── */
+#particlesCanvas{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+/* ══════════════════════════════════════════
+   FALLING PETALS
+══════════════════════════════════════════ */
+.petal{
+  position:fixed;top:-60px;
+  font-size:1.2rem;pointer-events:none;
+  z-index:2;opacity:0;
+  animation:petalFall linear forwards;
+}
+@keyframes petalFall{
+  0%  {opacity:0;transform:translateY(0) rotate(0deg) scale(0.8)}
+  5%  {opacity:0.8}
+  90% {opacity:0.7}
+  100%{opacity:0;transform:translateY(105vh) rotate(540deg) scale(1.1)}
+}
+
+/* ══════════════════════════════════════════
+   CSS COMET (shooting star)
+══════════════════════════════════════════ */
+.comet{
+  position:fixed;pointer-events:none;z-index:9;
+  display:flex;align-items:center;
+  /* angle: -28 deg (travels upper-left → lower-right) */
+  transform:rotate(-28deg);
+  transform-origin:right center;
+  opacity:0;
+  animation:cometFly var(--dur,2.4s) ease-out forwards;
+}
+@keyframes cometFly{
+  0%  {opacity:0}
+  5%  {opacity:1}
+  85% {opacity:1}
+  100%{opacity:0}
+}
+.comet-tail{
+  width:clamp(120px,30vw,220px);height:2px;
+  background:linear-gradient(to right,
+    transparent 0%,
+    rgba(255,255,255,0.04) 30%,
+    rgba(255,255,255,0.35) 70%,
+    rgba(255,255,255,0.85) 100%);
+  border-radius:2px;
+}
+.comet-head{
+  width:11px;height:11px;
+  background:#fff;border-radius:50%;flex-shrink:0;
+  box-shadow:
+    0 0 4px 2px rgba(255,255,255,0.95),
+    0 0 12px 5px rgba(210,180,255,0.75),
+    0 0 28px 10px rgba(150,100,255,0.4);
+}
+
+/* ══════════════════════════════════════════
+   TAP SPARKLE
+══════════════════════════════════════════ */
+.sparkle{
+  position:fixed;pointer-events:none;z-index:9999;
+  font-size:1rem;
+  animation:sparklePop 0.7s ease-out forwards;
+}
+@keyframes sparklePop{
+  0%  {opacity:1;transform:translate(-50%,-50%) scale(0)}
+  50% {opacity:1;transform:translate(var(--tx),var(--ty)) scale(1.2)}
+  100%{opacity:0;transform:translate(var(--tx2),var(--ty2)) scale(0.5)}
+}
+
+/* ══════════════════════════════════════════
+   APOLOGY OVERLAY
+══════════════════════════════════════════ */
+#apologyOverlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.9);
+  z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  padding:1rem;
+}
+.apology-box{
+  background:linear-gradient(135deg,#1a0a2e,#2d1054);
+  border:2px solid rgba(255,182,193,.35);border-radius:28px;
+  padding:2rem 1.5rem;max-width:400px;width:100%;
+  text-align:center;
+  box-shadow:0 0 60px rgba(255,107,157,.35),0 0 120px rgba(118,75,162,.22);
+  animation:popIn .55s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+
+.apology-gif{
+  width:175px;height:175px;border-radius:50%;object-fit:cover;
+  margin:0 auto 1.2rem;display:block;
+  border:4px solid rgba(255,107,157,.5);
+  box-shadow:0 0 30px rgba(255,107,157,.4);
+  transition:opacity .25s;
+}
+.apology-msg{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(1.2rem,4.5vw,1.7rem);
+  color:#ffd4e5;margin-bottom:1.6rem;line-height:1.45;min-height:66px;
+  transition:opacity .25s;
+}
+.apology-buttons{display:flex;gap:1rem;justify-content:center}
+.btn-yes{
+  background:linear-gradient(135deg,#ff6b9d,#c44b82);
+  color:#fff;border:none;border-radius:50px;
+  padding:.8rem 2rem;font-size:1.15rem;
+  font-family:'Dancing Script',cursive;font-weight:700;cursor:pointer;
+  box-shadow:0 4px 20px rgba(255,107,157,.55);
+  transition:transform .25s,box-shadow .25s;
+}
+.btn-yes:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(255,107,157,.7)}
+.btn-no{
+  background:rgba(255,255,255,.1);color:#fff;
+  border:2px solid rgba(255,255,255,.3);border-radius:50px;
+  padding:.8rem 2rem;font-size:1.15rem;
+  font-family:'Dancing Script',cursive;cursor:pointer;
+  transition:transform .3s,opacity .4s;
+}
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+.hero{
+  min-height:100vh;min-height:-webkit-fill-available;flex-direction:column;
+  justify-content:center;align-items:center;
+  text-align:center;padding:2rem 1rem;
+  position:relative;z-index:3;
+}
+h1{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(2.6rem,10vw,5.5rem);font-weight:700;
+  background:linear-gradient(45deg,#fff,#f8ff00,#fff);
+  background-size:200% 200%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shimmer 3s ease-in-out infinite;
+  letter-spacing:2px;margin-bottom:1rem;
+}
+@keyframes shimmer{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+.birthday-cake{
+  font-size:clamp(4rem,14vw,6rem);
+  animation:bounce 2s ease-in-out infinite;
+  cursor:pointer;display:inline-block;
+}
+@keyframes bounce{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-22px) rotate(5deg)}
+}
+.subtitle{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(1rem,4vw,1.7rem);
+  margin-top:.8rem;opacity:.9;letter-spacing:1px;
+  overflow:hidden;white-space:nowrap;
+  border-right:3px solid #ffb3d9;width:0;
+  animation:typewriter 2.8s steps(42,end) .8s forwards,
+            blinkCursor .75s step-end infinite;
+}
+@keyframes typewriter{to{width:100%}}
+@keyframes blinkCursor{50%{border-color:transparent}}
+
+/* ══════════════════════════════════════════
+   SHARED SECTION
+══════════════════════════════════════════ */
+.content{position:relative;z-index:3}
+.section{
+  max-width:900px;margin:0 auto;
+  padding:clamp(3rem,8vw,5rem) clamp(1rem,4vw,2rem);
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.65rem,6vw,2.8rem);
+  text-align:center;margin-bottom:2rem;font-weight:700;
+}
+.section-sub{
+  text-align:center;opacity:.75;margin-bottom:1.8rem;
+  font-style:italic;font-size:clamp(.9rem,3vw,1.05rem);
+}
+
+/* ══════════════════════════════════════════
+   QUOTE TICKER
+══════════════════════════════════════════ */
+.quote-ticker{
+  background:rgba(255,255,255,.08);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:20px;padding:2rem 1.5rem;
+  text-align:center;position:relative;overflow:hidden;
+}
+.quote-ticker::before{
+  content:'"';position:absolute;top:-10px;left:16px;
+  font-size:6rem;font-family:'Playfair Display',serif;
+  color:rgba(255,107,157,.2);line-height:1;
+}
+.quote-text{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(1.2rem,4.5vw,1.7rem);
+  color:#ffd4e5;line-height:1.5;min-height:80px;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .5s ease,transform .5s ease;
+}
+.quote-text.fade{opacity:0;transform:translateY(10px)}
+.quote-dots{display:flex;justify-content:center;gap:8px;margin-top:1rem}
+.quote-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(255,255,255,.3);cursor:pointer;
+  transition:background .3s,transform .3s;
+}
+.quote-dot.active{background:#ff6b9d;transform:scale(1.3)}
+
+/* ══════════════════════════════════════════
+   REALISTIC ENVELOPE
+══════════════════════════════════════════ */
+/* Tap-outside backdrop */
+#letterBackdrop{
+  display:none;position:fixed;inset:0;z-index:88;
+}
+#letterBackdrop.active{display:block}
+
+.envelope-section{position:relative;z-index:90}
+
+.envelope-container{
+  display:flex;justify-content:center;align-items:flex-end;
+  /* tall enough to show the letter above the envelope */
+  min-height:580px;
+  position:relative;
+}
+
+.envelope-wrap{
+  position:relative;
+  width:min(390px,92vw);
+  /* envelope body height */
+  --eh:min(260px,66vw);
+  height:var(--eh);
+  cursor:pointer;flex-shrink:0;
+}
+
+/* ── body ── */
+.env-body{
+  position:absolute;inset:0;
+  background:var(--env-body);border-radius:6px;
+  box-shadow:0 22px 65px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.25);
+}
+.env-body::after{
+  content:'';position:absolute;inset:0;border-radius:6px;
+  background:linear-gradient(180deg,rgba(255,255,255,.16) 0%,transparent 55%);
+  pointer-events:none;
+}
+/* ── side triangles ── */
+.env-left{
+  position:absolute;inset:0;
+  clip-path:polygon(0 0,0 100%,50% 50%);
+  background:var(--env-side);
+}
+.env-right{
+  position:absolute;inset:0;
+  clip-path:polygon(100% 0,50% 50%,100% 100%);
+  background:var(--env-side);
+}
+/* ── bottom triangle ── */
+.env-bot{
+  position:absolute;inset:0;
+  clip-path:polygon(0 100%,50% 50%,100% 100%);
+  background:var(--env-bot);
+}
+/* ── top flap ── */
+.env-top{
+  position:absolute;inset:0;
+  clip-path:polygon(0 0,100% 0,50% 50%);
+  background:var(--env-top);
+  transform-origin:top center;
+  transition:transform .9s cubic-bezier(.4,0,.2,1);
+  z-index:4;
+}
+/* ── wax seal ── */
+.env-seal{
+  position:absolute;top:44%;left:50%;
+  transform:translate(-50%,-50%);
+  width:58px;height:58px;
+  background:radial-gradient(circle at 38% 32%,#fff5f8,#c44b82);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.85rem;z-index:5;
+  box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 3px rgba(255,255,255,.5);
+  transition:all .4s ease;
+}
+
+/* ── OPEN STATE ── */
+.envelope-wrap.open .env-top{transform:rotateX(-195deg)}
+.envelope-wrap.open .env-seal{
+  opacity:0;transform:translate(-50%,-50%) scale(0);pointer-events:none;
+}
+
+/* ══ LETTER ══
+   Starts hidden INSIDE the envelope (translateY(0), opacity 0).
+   On open: slides up 280px so it sits nicely above the envelope.
+   280px ≈ envelope height + a little extra so it's fully readable.
+*/
+.letter{
+  position:absolute;
+  /* same width as envelope, centred */
+  width:98%;left:3%;
+  /* bottom of letter = bottom of envelope */
+  bottom:0;
+  /* rough height — enough for content */
+  height:420px;
+  background:#fffef0;
+  border-radius:4px 4px 2px 2px;
+  box-shadow:
+    0 -4px 20px rgba(0,0,0,.15),
+    0 12px 45px rgba(0,0,0,.3),
+    inset 0 0 0 1px rgba(180,150,120,.2);
+  /* hidden behind envelope */
+  opacity:0;pointer-events:none;
+  transform:translateY(0) scale(0.97);
+  transition:
+    transform .95s cubic-bezier(.22,1,.36,1),
+    opacity .35s ease;
+  z-index:3;overflow:hidden;
+}
+.envelope-wrap.open .letter{
+  /* slide up so it appears above the envelope */
+  transform:translateY(-390px) scale(1);
+  opacity:1;
+  pointer-events:all;
+  z-index: 10;
+}
+
+/* ── lined paper ── */
+.letter-paper{
+  overflow-y: auto;
+  max-height: 420px;
+  -webkit-overflow-scrolling: touch;
+  background:
+    repeating-linear-gradient(
+      transparent,transparent 27px,
+      rgba(100,160,255,.15) 27px,rgba(100,160,255,.15) 28px
+    ),
+    linear-gradient(
+      to right,transparent 52px,
+      rgba(255,120,120,.28) 52px,rgba(255,120,120,.28) 54px,
+      transparent 54px
+    ),
+    #fffef0;
+  padding:1.3rem 1.3rem 1.3rem 3.8rem;
+  height:100%;overflow-y:auto;
+  color:#3a2a1a;font-family:'Caveat',cursive;
+  font-size:clamp(.92rem,3.2vw,1.08rem);line-height:28px;
+}
+.letter-date{text-align:right;font-size:.87rem;color:#8a6a5a;margin-bottom:.4rem}
+.letter-salutation{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(1rem,4vw,1.3rem);font-weight:700;
+  color:#c44b82;margin-bottom:.3rem;
+}
+.letter-body-text p{line-height:28px;margin-bottom:0}
+.letter-sign{
+  margin-top:.9rem;font-family:'Dancing Script',cursive;
+  font-size:clamp(1rem,4vw,1.25rem);
+  color:#c44b82;text-align:right;padding-right:.7rem;
+}
+/* floating hearts */
+.letter-hearts span{
+  position:absolute;font-size:1.1rem;
+  animation:floatLetterHeart 3s ease-in-out infinite;
+  opacity:.4;pointer-events:none;
+}
+@keyframes floatLetterHeart{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+/* secret paragraph */
+.letter-secret{
+  display:none;border-top:1px dashed rgba(200,150,150,.4);
+  padding-top:.5rem;margin-top:.5rem;color:#6a3a2a;
+}
+.letter-secret.visible{display:block}
+.letter-hint{
+  text-align:center;font-size:.8rem;
+  color:rgba(255,255,255,.6);font-style:italic;margin-bottom:1.1rem;
+}
+
+/* ══════════════════════════════════════════
+   OUR JOURNEY — Polaroid wall
+══════════════════════════════════════════ */
+.journey-header{
+  display:flex;align-items:center;gap:.8rem;
+  margin-bottom:2rem;justify-content:center;
+}
+.film-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4)}
+.journey-wall{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(185px,44vw),1fr));
+  gap:2rem 1.5rem;padding:.5rem;
+}
+.polaroid{
+  background:#fffef8;padding:10px 10px 40px;
+  box-shadow:0 8px 28px rgba(0,0,0,.38),0 2px 6px rgba(0,0,0,.2);
+  border-radius:3px;
+  transform:rotate(var(--rot,0deg));
+  transition:transform .38s cubic-bezier(.2,.8,.2,1),box-shadow .38s;
+  cursor:pointer;position:relative;
+}
+.polaroid:hover,.polaroid:active{
+  transform:rotate(0deg) scale(1.08);
+  box-shadow:0 22px 55px rgba(0,0,0,.5);z-index:10;
+}
+.polaroid-img{
+  width:100%;aspect-ratio:1;overflow:hidden;
+  background:linear-gradient(135deg,#ffd4e5,#c9b8ff,#b8e4ff);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.polaroid-img img{width:100%;height:100%;object-fit:cover;display:block}
+.polaroid-placeholder{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  color:rgba(80,40,80,.55);
+  font-family:'Caveat',cursive;font-size:.88rem;text-align:center;
+  padding:.5rem;gap:.3rem;
+}
+.polaroid-caption{
+  position:absolute;bottom:0;left:0;right:0;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Caveat',cursive;
+  font-size:clamp(.8rem,3vw,.96rem);color:#5a3a3a;
+  padding:0 8px;text-align:center;
+}
+
+/* ══════════════════════════════════════════
+   TIMELINE
+══════════════════════════════════════════ */
+.timeline{position:relative;padding-left:2.5rem}
+.timeline::before{
+  content:'';position:absolute;left:14px;top:0;bottom:0;
+  width:2px;background:linear-gradient(to bottom,transparent,#ff6b9d,#c44b82,transparent);
+  border-radius:2px;
+}
+.timeline-item{
+  position:relative;margin-bottom:2.2rem;
+  animation:fadeInLeft .5s ease both;
+}
+.timeline-item:nth-child(2){animation-delay:.1s}
+.timeline-item:nth-child(3){animation-delay:.2s}
+.timeline-item:nth-child(4){animation-delay:.3s}
+.timeline-item:nth-child(5){animation-delay:.4s}
+.timeline-item:nth-child(6){animation-delay:.5s}
+@keyframes fadeInLeft{
+  from{opacity:0;transform:translateX(-20px)}
+  to{opacity:1;transform:translateX(0)}
+}
+.timeline-dot{
+  position:absolute;left:-2.15rem;top:.35rem;
+  width:18px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,#ff6b9d,#c44b82);
+  border:3px solid rgba(255,255,255,.3);
+  box-shadow:0 0 10px rgba(255,107,157,.6);flex-shrink:0;
+}
+.timeline-card{
+  background:rgba(255,255,255,.1);-webkit-backdrop-filter: blur(10px);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);border-radius:16px;
+  padding:1rem 1.2rem;
+}
+.timeline-date{
+  font-family:'Dancing Script',cursive;font-size:1rem;
+  color:#ffb3d9;margin-bottom:.3rem;
+}
+.timeline-text{
+  font-family:'Caveat',cursive;
+  font-size:clamp(.95rem,3.2vw,1.1rem);
+  line-height:1.5;color:rgba(255,255,255,.9);
+}
+
+/* ══════════════════════════════════════════
+   18 REASONS
+══════════════════════════════════════════ */
+.reasons-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(120px,40vw),1fr));
+  gap:.85rem;
+}
+.reason-card{height:120px;perspective:700px;cursor:pointer}
+.reason-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  transition:transform .65s cubic-bezier(.4,0,.2,1);
+}
+.reason-card.flipped .reason-inner{transform:rotateY(180deg)}
+.reason-front,.reason-back{
+  position:absolute;inset:0;backface-visibility:hidden;
+  border-radius:16px;display:flex;align-items:center;
+  justify-content:center;text-align:center;padding:.8rem;
+}
+.reason-front{
+  background:linear-gradient(135deg,rgba(255,107,157,.22),rgba(118,75,162,.22));
+  border:1.5px solid rgba(255,255,255,.22);-webkit-backdrop-filter: blur(10px);backdrop-filter:blur(10px);
+  font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:700;
+  color:#ffd4e5;flex-direction:column;gap:.2rem;
+}
+.reason-front span{font-size:.7rem;opacity:.6;font-family:'Lora',serif;font-style:italic}
+.reason-back{
+  background:linear-gradient(135deg,#ff6b9d,#c44b82);
+  transform:rotateY(180deg);
+  font-family:'Caveat',cursive;font-size:clamp(.88rem,3vw,1rem);
+  color:#fff;font-weight:600;
+}
+
+/* ══════════════════════════════════════════
+   WISHING STAR
+══════════════════════════════════════════ */
+.wish-section{text-align:center}
+.wish-star-btn{
+  font-size:clamp(4rem,12vw,5.5rem);
+  cursor:pointer;display:inline-block;
+  animation:twinkle 2s ease-in-out infinite;
+  transition:transform .3s;
+  background:none;border:none;
+}
+.wish-star-btn:hover{transform:scale(1.22) rotate(20deg)}
+@keyframes twinkle{
+  0%,100%{filter:drop-shadow(0 0 10px gold)}
+  50%{filter:drop-shadow(0 0 35px gold) drop-shadow(0 0 70px orange)}
+}
+.wish-display{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(1.2rem,4.5vw,1.6rem);
+  color:#ffd700;min-height:56px;padding:.8rem;
+  opacity:0;transition:opacity .5s;
+}
+.wish-display.visible{opacity:1}
+
+/* ══════════════════════════════════════════
+   AGE COUNTER
+══════════════════════════════════════════ */
+.countdown-grid{
+  display:flex;justify-content:center;
+  gap:.65rem;flex-wrap:wrap;margin-top:1rem;
+}
+.countdown-box{
+  background:rgba(255,255,255,.15);-webkit-backdrop-filter: blur(10px);backdrop-filter:blur(10px);
+  border-radius:16px;padding:.9rem 1rem;
+  border:1px solid rgba(255,255,255,.24);
+  min-width:66px;text-align:center;
+}
+.countdown-number{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.65rem,5.5vw,2.4rem);font-weight:700;
+  display:block;line-height:1;
+}
+.countdown-label{font-size:.68rem;opacity:.8;text-transform:uppercase;letter-spacing:1px;margin-top:.3rem}
+
+/* ══════════════════════════════════════════
+   VIDEO 9:16
+══════════════════════════════════════════ */
+.video-romantic{
+  background:rgba(255,255,255,.08);-webkit-backdrop-filter: blur(10px);backdrop-filter:blur(10px);
+  border-radius:24px;padding:clamp(1.5rem,4vw,3rem);
+  border:1px solid rgba(255,255,255,.18);
+}
+.video-romantic-title{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(1.2rem,4vw,1.9rem);
+  text-align:center;margin-bottom:1.5rem;color:#ffb3d9;
+}
+.video-wrapper-916{
+  position:relative;width:min(340px,86vw);
+  margin:0 auto;border-radius:20px;overflow:hidden;
+  box-shadow:0 22px 65px rgba(0,0,0,.55);background:#000;
+}
+.video-wrapper-916::before{content:'';display:block;padding-top:177.78%}
+.video-wrapper-916 video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;border-radius:20px;
+}
+.video-placeholder{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  color:rgba(255,255,255,.5);font-style:italic;
+  text-align:center;padding:1.5rem;gap:.8rem;font-size:.95rem;
+}
+.video-placeholder .play-icon{font-size:3.5rem;opacity:.38}
+
+/* ══════════════════════════════════════════
+   GLOBAL ANIMATIONS
+══════════════════════════════════════════ */
+@keyframes floatHeart{
+  0%  {opacity:1;transform:translate(var(--hx,0),var(--hy,0)) scale(0) rotate(0deg)}
+  100%{opacity:0;transform:translate(var(--hx2,0),var(--hy2,-120px)) scale(1.4) rotate(360deg)}
+}
+@keyframes confettiFall{
+  0%  {transform:translateY(-80px) rotate(0deg);opacity:1}
+  100%{transform:translateY(105vh) rotate(720deg);opacity:0}
+}
+
+/* ══════════════════════════════════════════
+   MOBILE
+══════════════════════════════════════════ */
+@media(max-width:480px){
+  .envelope-wrap.open .letter{transform:translateY(-280px) scale(1)}
+  .timeline{padding-left:2rem}
+  .timeline::before{left:10px}
+  .timeline-dot{left:-1.7rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particlesCanvas"></canvas>
+
+<!-- Backdrop: tap outside to close letter -->
+<div id="letterBackdrop" onclick="closeEnvelope()"></div>
+
+<!-- ═══════════════════════════════════════
+     APOLOGY OVERLAY
+═══════════════════════════════════════ -->
+<div id="apologyOverlay">
+  <div class="apology-box">
+    <img class="apology-gif" id="apologyGif"
+      src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3M24zN210Y3UyMjJ3MWJlY3pxOTVvb2piajB2MHE2ejdwM3Rwd2dzdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/rScYNt7cl8I4lKSQVW/giphy.gif"
+      alt="sorry">
+    <p class="apology-msg" id="apologyMsg">I am sorry for whatever I did… will you forgive me?? 🥺</p>
+    <div class="apology-buttons">
+      <button class="btn-yes" onclick="forgiveMeYes()">Yes 💖</button>
+      <button class="btn-no" id="noBtn" onclick="forgiveMeNo()">No 😢</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<div class="hero">
+  <div class="birthday-cake" onclick="triggerCelebration()">🎂</div>
+  <!-- ✏️ Edit her name here -->
+  <h1>Happy Birthday Sarah!</h1>
+  <!-- ✏️ Edit subtitle here -->
+  <p class="subtitle">18 candles for the most magical soul ✨</p>
+</div>
+
+<div class="content">
+
+  <!-- ═══ QUOTE TICKER ═══ -->
+  <div class="section">
+    <h2 class="section-title">Words From My Heart 💬</h2>
+    <div class="quote-ticker">
+      <p class="quote-text" id="quoteText">Loading…</p>
+      <div class="quote-dots" id="quoteDots"></div>
+    </div>
+  </div>
+
+  <!-- ═══ LETTER / ENVELOPE ═══ -->
+  <div class="section envelope-section">
+    <h2 class="section-title">A Special Message 💌</h2>
+    <p class="letter-hint">Tap the envelope to open · tap the letter to reveal a secret 🤫</p>
+    <div class="envelope-container">
+      <div class="envelope-wrap" id="envelope" onclick="toggleEnvelope()">
+        <div class="env-body"></div>
+        <div class="env-left"></div>
+        <div class="env-right"></div>
+        <div class="env-bot"></div>
+        <div class="env-top"></div>
+        <div class="env-seal">💖</div>
+
+        <div class="letter" onclick="revealSecret(event)">
+          <div class="letter-hearts">
+            <span style="top:7%;left:4%">💕</span>
+            <span style="top:10%;right:5%;animation-delay:.6s">💗</span>
+            <span style="bottom:16%;left:5%;animation-delay:1.1s">💖</span>
+            <span style="bottom:8%;right:4%;animation-delay:1.6s">💓</span>
+            <span style="top:45%;left:2%;animation-delay:.9s;font-size:1rem">🌸</span>
+            <span style="top:65%;right:3%;animation-delay:1.4s;font-size:1rem">✨</span>
+          </div>
+          <div class="letter-paper">
+            <div class="letter-date" id="letterDate"></div>
+            <div class="letter-salutation">Dear Harshuu,</div>
+            <div class="letter-body-text">
+              <!-- ✏️ REPLACE WITH YOUR LETTER MESSAGE ✏️ -->
+              <p>On this beautiful day you turn 18, I wanted to create something just for you — something that holds every feeling I never quite had the words for.</p>
+              <p>&nbsp;</p>
+              <p>You walk into a room and something shifts. You laugh and the whole world feels a little lighter. I notice every single thing about you, and I always will.</p>
+              <p>&nbsp;</p>
+              <p>Happy 18th birthday. This is only the beginning of everything. 🌟</p>
+              <!-- ✏️ END OF LETTER ✏️ -->
+
+              <!-- ✏️ SECRET — shown when letter is tapped ✏️ -->
+              <div class="letter-secret" id="letterSecret">
+                <p>&nbsp;</p>
+                <p>P.S. — You found the secret… so here it is 💌</p>
+                <p>[Paste your real secret message right here]</p>
+              </div>
+              <!-- ✏️ END SECRET ✏️ -->
+            </div>
+            <div class="letter-sign">With all my love,<br>— [Sarvesh] 💕</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OUR JOURNEY ═══ -->
+  <div class="section">
+    <h2 class="section-title">Our Journey 📸</h2>
+    <div class="journey-header">
+      <div class="film-dot"></div><div class="film-dot"></div>
+      <span style="font-style:italic;opacity:.7;font-size:.88rem">every moment worth keeping</span>
+      <div class="film-dot"></div><div class="film-dot"></div>
+    </div>
+
+    <!--
+    HOW TO ADD PHOTOS:
+    1. Put your image file (e.g. photo1.jpg) in the same folder as this HTML.
+    2. Inside each .polaroid-img, delete the <div class="polaroid-placeholder"> block.
+    3. Uncomment the <img> tag and set src="your-file.jpg".
+    4. Edit the caption text in .polaroid-caption.
+    You can add or remove .polaroid blocks as needed.
+    -->
+    <div class="journey-wall">
+      <div class="polaroid" style="--rot:-4deg">
+        <div class="polaroid-img">
+          <!-- <img src="photo1.jpg" alt=""> -->
+          <img src="the_beginning.jpg" alt="">
+        </div>
+        <div class="polaroid-caption">The very beginning 💕</div>
+      </div>
+      <div class="polaroid" style="--rot:3.5deg">
+        <div class="polaroid-img">
+          <!-- <img src="photo2.jpg" alt=""> -->
+          <img src="laughed.jpg" alt="">
+        </div>
+        <div class="polaroid-caption">The day we laughed too hard 😂</div>
+      </div>
+      <div class="polaroid" style="--rot:-2.5deg">
+        <div class="polaroid-img">
+          <!-- <img src="photo3.jpg" alt=""> -->
+          <img src="fav.jpg" alt="">
+        </div>
+        <div class="polaroid-caption">My favourite memory 🌸</div>
+      </div>
+      <div class="polaroid" style="--rot:5deg">
+        <div class="polaroid-img">
+          <!-- <img src="photo4.jpg" alt=""> -->
+          <img src="stunning.jpg" alt="">
+        </div>
+        <div class="polaroid-caption">You looked stunning ✨</div>
+      </div>
+      <div class="polaroid" style="--rot:-3deg">
+        <div class="polaroid-img">
+          <!-- <img src="photo5.jpg" alt=""> -->
+          <img src="adventure.jpg" alt="">
+        </div>
+        <div class="polaroid-caption">Adventure mode on 🌍</div>
+      </div>
+      <div class="polaroid" style="--rot:2deg">
+        <div class="polaroid-img">
+          <!-- <img src="photo6.jpg" alt=""> -->
+          <img src="always.jpg" alt="">
+        </div>
+        <div class="polaroid-caption">Us, always 💖</div>
+        </div>
+       <div class="polaroid" style="--rot:-1.5deg">
+        <div class="polaroid-img">
+          <!-- <img src="photo7.jpg" alt=""> -->
+          <img src="memories.jpg" alt="">
+        </div>
+        <div class="polaroid-caption">So many memories, so much love 🌟</div>
+        </div>
+        <div class="polaroid" style="--rot:2deg">
+        <div class="polaroid-img">
+          <!-- <img src="photo8.jpg" alt=""> -->
+          <img src="best.jpg" alt="">
+        </div>
+        <div class="polaroid-caption">The best 💫</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TIMELINE ═══ -->
+  <div class="section">
+    <h2 class="section-title">Our Story So Far 🕰️</h2>
+    <p class="section-sub">The moments that made us, us 💕</p>
+
+    <!--
+    ✏️ EDIT EACH TIMELINE ITEM:
+       • timeline-date  → when it happened
+       • timeline-text  → what happened
+    Add or remove .timeline-item blocks as needed.
+    -->
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">📅 [23 April 2024]</div>
+          <div class="timeline-text">The day when miracles happened and i got you ✨</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">📅 [Days when we used to sit in podium]</div>
+          <div class="timeline-text">The first time you made me laugh so hard I couldn't breathe 😂</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">📅 [The time when i hugged you when we were at balcony maybe 22 May 2024??]</div>
+          <div class="timeline-text">The moment I realised I'd never meet anyone quite like you 💕</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">📅 [10 November 2025]</div>
+          <div class="timeline-text">The day when we spend soo much time together and created unforgetable moments 🌸</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-date">📅 Today is your 18th birthday</div>
+          <div class="timeline-text">The beginning of your most beautiful chapter yet 🎂🌟</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 18 REASONS ═══ -->
+  <div class="section">
+    <h2 class="section-title">18 Reasons You're Amazing 🌟</h2>
+    <p class="section-sub">Tap each card — one reason for every beautiful year 💕</p>
+    <!-- ✏️ Edit the text inside each .reason-back div ✏️ -->
+    <div class="reasons-grid">
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">1<span>tap</span></div><div class="reason-back">Your smile makes everything instantly better 😊</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">2<span>tap</span></div><div class="reason-back">You're braver than you'll ever know 💪</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">3<span>tap</span></div><div class="reason-back">Your laugh is genuinely cute 😂</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">4<span>tap</span></div><div class="reason-back">You make the world more beautiful 🌸</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">5<span>tap</span></div><div class="reason-back">You care so deeply about everyone 💞</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">6<span>tap</span></div><div class="reason-back">You're stronger than you realise 🔥</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">7<span>tap</span></div><div class="reason-back">Your kindness is genuinely rare 🌺</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">8<span>tap</span></div><div class="reason-back">You're impossibly beautiful ✨</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">9<span>tap</span></div><div class="reason-back">You inspire everyone around you 🌟</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">10<span>tap</span></div><div class="reason-back">Your ambition is next-level 🚀</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">11<span>tap</span></div><div class="reason-back">You're funny without even trying 😄</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">12<span>tap</span></div><div class="reason-back">Your vibe is completely unmatchable 💫</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">13<span>tap</span></div><div class="reason-back">You make me lose control 🤍</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">14<span>tap</span></div><div class="reason-back">Your heart is pure gold 💛</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">15<span>tap</span></div><div class="reason-back">Life is genuinely better with you in it 💕</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">16<span>tap</span></div><div class="reason-back">You dream bigger than anyone I know 🌈</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">17<span>tap</span></div><div class="reason-back">You're one of a kind — I mean every word 🦋</div></div></div>
+      <div class="reason-card" onclick="this.classList.toggle('flipped')"><div class="reason-inner"><div class="reason-front">18<span>tap</span></div><div class="reason-back">Because you're you — and that is everything 💖</div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ WISHING STAR ═══ -->
+  <div class="section wish-section">
+    <h2 class="section-title">Make a Wish 🌠</h2>
+    <p class="section-sub">Tap the star, close your eyes, and wish 💫</p>
+    <button class="wish-star-btn" onclick="sendWish()">⭐</button>
+    <p class="wish-display" id="wishDisplay"></p>
+  </div>
+
+  <!-- ═══ AGE COUNTER ═══ -->
+  <div class="section" style="text-align:center">
+    <h2 class="section-title">You've Been Amazing For… 🎂</h2>
+    <p class="section-sub">Counting every second of it 💕</p>
+    <div class="countdown-grid">
+      <div class="countdown-box"><span class="countdown-number" id="cdY">0</span><div class="countdown-label">Years</div></div>
+      <div class="countdown-box"><span class="countdown-number" id="cdMo">0</span><div class="countdown-label">Months</div></div>
+      <div class="countdown-box"><span class="countdown-number" id="cdD">0</span><div class="countdown-label">Days</div></div>
+      <div class="countdown-box"><span class="countdown-number" id="cdH">0</span><div class="countdown-label">Hours</div></div>
+      <div class="countdown-box"><span class="countdown-number" id="cdMi">0</span><div class="countdown-label">Mins</div></div>
+      <div class="countdown-box"><span class="countdown-number" id="cdS">0</span><div class="countdown-label">Secs</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ VIDEO 9:16 ═══ -->
+  <div class="section">
+    <h2 class="section-title">A Message From My Heart 💝</h2>
+    <div class="video-romantic">
+      <h3 class="video-romantic-title">For You, With Love</h3>
+      <!--
+      HOW TO ADD YOUR VIDEO:
+      1. Put your .mp4 file in the same folder as this HTML file.
+      2. Change  src="your-video.mp4"  to your actual file name.
+      Video plays in 9:16 portrait — perfect for phone-recorded clips!
+      -->
+      <div class="video-wrapper-916">
+        <video controls playsinline webkit-playsinline id="myVideo">
+          <source src="your-video.mp4" type="video/mp4">
+        </video>
+        <div class="video-placeholder" id="videoPlaceholder">
+          <div class="play-icon">🎬</div>
+          <p>Put <strong>your-video.mp4</strong> in the same folder as this file 💕</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.content -->
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>
+/* ══════════════════════════════════════════════════
+   ▼▼  THINGS YOU CAN EDIT  ▼▼
+══════════════════════════════════════════════════ */
+
+// ── Her birthday ──────────────────────────────────────
+// Format: new Date(YEAR, MONTH-1, DAY, HOUR, MIN)
+// e.g. born 15 March 2007 at 10:30am → new Date(2007, 2, 15, 10, 30)
+const BIRTHDAY = new Date(2008, 3, 30, 12, 0);   // ← CHANGE THIS
+
+// ── Apology GIFs (add as many as you want) ────────────
+// Every GIF plays once before any repeat (shuffle mode).
+const NO_GIFS = [
+"https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3M24zN210Y3UyMjJ3MWJlY3pxOTVvb2piajB2MHE2ejdwM3Rwd2dzdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/rScYNt7cl8I4lKSQVW/giphy.gif",
+"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzNjczMzcjNhNHZqOTBwZGF3YmFsNG90bndlOW4yc255cGtxNThvYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/P53TSsopKicrm/giphy.gif",
+"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzNjczMzcjNhNHZqOTBwZGF3YmFsNG90bndlOW4yc255cGtxNThvYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qQdL532ZANbjy/giphy.gif",
+"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzNjczMzcjNhNHZqOTBwZGF3YmFsNG90bndlOW4yc255cGtxNThvYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/98MaHVwJOmWMz4cz1K/giphy.gif",
+"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYW1mN2hqY3J0bmtyc3FpNTdra25haHM4aHIycnd0NGVlMTNqM2hldSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OOTUh0PZlJwoXpg94f/giphy.gif",
+"https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dDFrNzZpYTAyZm12amJhd3Z6eHExZDk0bHA1d2MyODhlZDRsd2tneSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Qw1wF6hnNRYixpdgmH/giphy.gif",
+];
+
+// ── Love quotes for the ticker ────────────────────────
+// ✏️ Edit or add your own!
+const QUOTES = [
+  "Happy 18th — this is only the beginning of your story 🌟",
+  "You make ordinary moments feel extraordinary 💫",
+  "In a room full of people, you are still the only one I see 💕",
+  "Everything is better when you're around 🌸",
+  "You are my favourite kind of magic happened to me ✨",
+  "You are sunshine in human form ☀️",
+  "You deserve every beautiful thing this world has to offer 💖",
+  "I noticed you. I always will. 💓",
+];
+
+// ── Wishing star messages ──────────────────────────────
+const WISHES = [
+  "May this year bring you everything you deserve 🌟",
+  "Sending you all the love in the universe 💫",
+  "Wishing you happiness beyond imagination 🌈",
+  "May every day feel as magical as today ✨",
+  "Here's to the most beautiful year yet 🎉",
+  "Your joy is the world's greatest gift 🌸",
+  "You're about to live your best chapter yet 📖",
+];
+
+/* ══════════════════════════════════════════════════
+   QUOTE TICKER
+══════════════════════════════════════════════════ */
+let qIdx = 0;
+const qText  = document.getElementById('quoteText');
+const qDots  = document.getElementById('quoteDots');
+
+// build dots
+QUOTES.forEach((_,i)=>{
+  const d = document.createElement('span');
+  d.className = 'quote-dot' + (i===0?' active':'');
+  d.onclick = () => goToQuote(i);
+  qDots.appendChild(d);
+});
+
+function goToQuote(i){
+  qIdx = i;
+  qText.classList.add('fade');
+  setTimeout(()=>{
+    qText.textContent = QUOTES[qIdx];
+    qText.classList.remove('fade');
+    document.querySelectorAll('.quote-dot').forEach((d,j)=>
+      d.classList.toggle('active',j===qIdx));
+  }, 500);
+}
+
+qText.textContent = QUOTES[0];
+setInterval(()=>{ goToQuote((qIdx+1)%QUOTES.length); }, 4500);
+
+/* ══════════════════════════════════════════════════
+   APOLOGY — no-repeat GIF shuffle
+══════════════════════════════════════════════════ */
+const NO_MSGS = [
+  "Please… will you forgive me? 🥺",
+  "I promise I'll do better… please? 💔",
+  "I'm really really sorry… one more chance? 😭",
+  "My heart breaks without your forgiveness 💙",
+  "Okay but… I love you too much to give up 🌹",
+  "Nooooo don't do this to me 😢",
+  "I'll write you 1000 sorries… FORGIVE ME 🥹",
+  "You're my favourite person, please 🙏",
+  "Fine… but I'm not giving up on us 💕",
+  "Last time I promise… PLEASE 😇",
+];
+
+let gifQ = [], noCount = 0;
+
+function shuffleArr(a){ const b=[...a]; for(let i=b.length-1;i>0;i--){ const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]; } return b; }
+function nextGif(){ if(!gifQ.length) gifQ=shuffleArr(NO_GIFS); return gifQ.pop(); }
+
+function forgiveMeYes(){
+  const ov=document.getElementById('apologyOverlay');
+  ov.style.transition='opacity .6s';ov.style.opacity='0';
+  setTimeout(()=>{ ov.style.display='none'; triggerCelebration(); },600);
+}
+
+function forgiveMeNo(){
+  const msg=document.getElementById('apologyMsg');
+  const gif=document.getElementById('apologyGif');
+  const btn=document.getElementById('noBtn');
+
+  msg.style.opacity='0';
+  gif.style.opacity='0';
+
+  setTimeout(()=>{
+    msg.textContent = NO_MSGS[noCount % NO_MSGS.length];
+    msg.style.transition='opacity .3s';msg.style.opacity='1';
+    gif.src = nextGif()+'?cb='+Date.now();
+    gif.style.transition='opacity .3s';gif.style.opacity='1';
+  },270);
+
+  const sc=Math.max(0.5,1-noCount*.055);
+  const op=Math.max(0.3,1-noCount*.07);
+  btn.style.transform=`scale(${sc})`;btn.style.opacity=op;
+  noCount++;
+}
+
+/* ══════════════════════════════════════════════════
+   AGE COUNTER — leap-year correct
+   Method: calendrical years/months/days, then
+   compute the exact anchor date and subtract to
+   get hours/mins/secs from remaining ms.
+══════════════════════════════════════════════════ */
+function getElapsed(){
+  const now  = new Date();
+  const b    = new Date(BIRTHDAY);
+
+  let yr = now.getFullYear() - b.getFullYear();
+  let mo = now.getMonth()    - b.getMonth();
+  let da = now.getDate()     - b.getDate();
+
+  // borrow day
+  if(da < 0){
+    mo--;
+    // days in the month that just rolled back (leap-aware via Date API)
+    da += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+  }
+  // borrow month
+  if(mo < 0){ yr--; mo += 12; }
+
+  // build the exact datetime that is (yr years, mo months, da days) after birth
+  const anchor = new Date(b);
+  anchor.setFullYear(anchor.getFullYear() + yr);
+  anchor.setMonth  (anchor.getMonth()    + mo);
+  anchor.setDate   (anchor.getDate()     + da);
+
+  // remaining ms → sub-day components
+  const rem = now - anchor;         // ms
+  const hr  = Math.floor(rem / 3600000);
+  const mi  = Math.floor((rem % 3600000) / 60000);
+  const sc  = Math.floor((rem % 60000)   / 1000);
+
+  return { yr, mo, da, hr, mi, sc };
+}
+
+function updateCounter(){
+  const e=getElapsed();
+  document.getElementById('cdY').textContent  = e.yr;
+  document.getElementById('cdMo').textContent = e.mo;
+  document.getElementById('cdD').textContent  = e.da;
+  document.getElementById('cdH').textContent  = e.hr;
+  document.getElementById('cdMi').textContent = String(e.mi).padStart(2,'0');
+  document.getElementById('cdS').textContent  = String(e.sc).padStart(2,'0');
+}
+updateCounter();
+setInterval(updateCounter,1000);
+
+// Letter date
+document.getElementById('letterDate').textContent =
+  new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+
+/* ══════════════════════════════════════════════════
+   ENVELOPE
+══════════════════════════════════════════════════ */
+let envOpen=false;
+function toggleEnvelope(){ envOpen ? closeEnvelope() : openEnvelope(); }
+function openEnvelope(){
+  envOpen=true;
+  document.getElementById('envelope').classList.add('open');
+  document.getElementById('letterBackdrop').classList.add('active');
+  spawnHearts(22);
+}
+function closeEnvelope(){
+  envOpen=false;
+  document.getElementById('envelope').classList.remove('open');
+  document.getElementById('letterBackdrop').classList.remove('active');
+  document.getElementById('letterSecret').classList.remove('visible');
+}
+function revealSecret(e){
+  e.stopPropagation();
+  document.getElementById('letterSecret').classList.toggle('visible');
+  spawnHearts(14);
+}
+
+function spawnHearts(n){
+  const picks=['💕','💗','💖','💓','🌸','✨','🌺'];
+  for(let i=0;i<n;i++) setTimeout(()=>{
+    const h=document.createElement('div');
+    h.textContent=picks[0|Math.random()*picks.length];
+    const x=10+Math.random()*80, y=10+Math.random()*80;
+    const dx=(Math.random()-0.5)*120, dy=-(60+Math.random()*120);
+    h.style.cssText=`position:fixed;left:${x}vw;top:${y}vh;
+      font-size:${Math.random()*16+13}px;z-index:9998;pointer-events:none;
+      --hx2:${dx}px;--hy2:${dy}px;
+      animation:floatHeart ${1.2+Math.random()*.8}s ease-out forwards;`;
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),2200);
+  }, i*60);
+}
+
+/* ══════════════════════════════════════════════════
+   WISHING STAR
+══════════════════════════════════════════════════ */
+let wishIdx=0;
+function sendWish(){
+  const d=document.getElementById('wishDisplay');
+  d.classList.remove('visible');void d.offsetWidth;
+  d.textContent=WISHES[wishIdx++%WISHES.length];
+  d.classList.add('visible');
+  for(let i=0;i<30;i++) setTimeout(()=>{
+    const s=document.createElement('div');
+    s.textContent=['⭐','✨','💫','🌟','🌠'][0|Math.random()*5];
+    s.style.cssText=`position:fixed;left:${Math.random()*100}vw;top:${Math.random()*100}vh;
+      font-size:${Math.random()*16+12}px;z-index:9998;pointer-events:none;
+      animation:confettiFall 2.5s ease forwards;`;
+    document.body.appendChild(s);setTimeout(()=>s.remove(),2600);
+  },i*55);
+}
+
+/* ══════════════════════════════════════════════════
+   CONFETTI CELEBRATION
+══════════════════════════════════════════════════ */
+function triggerCelebration(){
+  const em=['🎉','🎊','🎈','✨','💫','⭐','🌸','💕','🌟','🎀'];
+  for(let i=0;i<60;i++) setTimeout(()=>{
+    const e=document.createElement('div');
+    e.textContent=em[0|Math.random()*em.length];
+    e.style.cssText=`position:fixed;left:${Math.random()*100}vw;top:-60px;
+      font-size:${Math.random()*24+16}px;z-index:9999;pointer-events:none;
+      animation:confettiFall ${2+Math.random()*2}s ease-in-out forwards;`;
+    document.body.appendChild(e);setTimeout(()=>e.remove(),4200);
+  },i*65);
+}
+
+/* ══════════════════════════════════════════════════
+   PARTICLES (canvas hearts)
+══════════════════════════════════════════════════ */
+const canvas=document.getElementById('particlesCanvas');
+const ctx=canvas.getContext('2d');
+let particles=[];
+
+function resizeCanvas(){ canvas.width=innerWidth; canvas.height=innerHeight; }
+
+class Particle{
+  constructor(){
+    this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height;
+    this.sz=Math.random()*7+4;
+    this.sx=(Math.random()-.5)*1.1; this.sy=(Math.random()-.5)*1.1;
+    this.op=Math.random()*.26+.08;
+  }
+  update(){
+    this.x+=this.sx; this.y+=this.sy;
+    if(this.x>canvas.width||this.x<0) this.sx*=-1;
+    if(this.y>canvas.height||this.y<0) this.sy*=-1;
+  }
+  draw(){
+    ctx.save();ctx.translate(this.x,this.y);ctx.scale(this.sz/10,this.sz/10);
+    ctx.fillStyle=`rgba(255,182,193,${this.op})`;
+    ctx.beginPath();ctx.moveTo(0,3);
+    ctx.bezierCurveTo(-5,-3,-10,1,0,10);
+    ctx.bezierCurveTo(10,1,5,-3,0,3);
+    ctx.fill();ctx.restore();
+  }
+}
+
+function initParticles(){
+  particles=[];
+  const n=innerWidth<768?38:78;
+  for(let i=0;i<n;i++) particles.push(new Particle());
+}
+
+(function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{p.update();p.draw();});
+  requestAnimationFrame(animate);
+})();
+
+resizeCanvas(); initParticles();
+addEventListener('resize',()=>{ resizeCanvas(); initParticles(); });
+
+/* ══════════════════════════════════════════════════
+   FALLING PETALS
+══════════════════════════════════════════════════ */
+const PETALS=['🌸','🌺','🌹','🌷','💐'];
+function spawnPetal(){
+  const p=document.createElement('div');
+  p.className='petal';
+  p.textContent=PETALS[0|Math.random()*PETALS.length];
+  p.style.left=Math.random()*100+'vw';
+  const dur=5+Math.random()*7;
+  p.style.setProperty('animation-duration',dur+'s');
+  p.style.animationDelay=(Math.random()*2)+'s';
+  p.style.fontSize=(0.8+Math.random()*0.9)+'rem';
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),(dur+3)*1000);
+}
+// launch petals continuously
+(function petalLoop(){
+  spawnPetal();
+  setTimeout(petalLoop, 800+Math.random()*1200);
+})();
+
+/* ══════════════════════════════════════════════════
+   CSS COMET (real shooting star — no emoji)
+   Moves diagonally across screen every 8–20 s.
+══════════════════════════════════════════════════ */
+function launchComet(){
+  const comet=document.createElement('div');
+  comet.className='comet';
+
+  const tail=document.createElement('div'); tail.className='comet-tail';
+  const head=document.createElement('div'); head.className='comet-head';
+  comet.appendChild(tail); comet.appendChild(head);
+
+  // Randomise start position along the top & left edges
+  const startX = -5 + Math.random()*60; // % from left
+  const startY = 5  + Math.random()*35; // % from top
+  const dur    = (1.8 + Math.random()*1.4).toFixed(2);
+
+  // Travel distance (moves lower-right from the rotated origin)
+  const travelX = 110 + Math.random()*30; // vw equivalent
+  const travelY = 40  + Math.random()*30; // vh equivalent
+
+  comet.style.cssText=`
+    left:${startX}vw; top:${startY}vh;
+    --dur:${dur}s;
+    animation:cometFly ${dur}s ease-out forwards;
+    position:fixed; pointer-events:none; z-index:9;
+    display:flex; align-items:center;
+    transform:rotate(-28deg);
+    transform-origin:right center;
+    opacity:0;
+  `;
+
+  // We animate position via a second keyframe applied via JS
+  comet.style.transition=`left ${dur}s ease-out, top ${dur}s ease-out`;
+
+  document.body.appendChild(comet);
+
+  // Trigger position movement
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      comet.style.left = (startX + travelX)+'vw';
+      comet.style.top  = (startY + travelY)+'vh';
+    });
+  });
+
+  setTimeout(()=>comet.remove(), (parseFloat(dur)+0.5)*1000);
+}
+
+// Schedule comets
+(function cometLoop(){
+  setTimeout(()=>{ launchComet(); cometLoop(); }, 8000+Math.random()*12000);
+})();
+// Fire one shortly after page loads so she sees it quickly
+setTimeout(launchComet, 3500);
+
+/* ══════════════════════════════════════════════════
+   TAP SPARKLE (touch anywhere = sparkle burst)
+══════════════════════════════════════════════════ */
+document.addEventListener('touchstart', e=>{
+  const t=e.touches[0];
+  const gems=['✨','💫','⭐','🌟','💕','🌸'];
+  for(let i=0;i<7;i++){
+    const s=document.createElement('div');
+    s.className='sparkle';
+    s.textContent=gems[0|Math.random()*gems.length];
+    const angle=Math.random()*360;
+    const dist =30+Math.random()*60;
+    const tx=Math.cos(angle*Math.PI/180)*dist;
+    const ty=Math.sin(angle*Math.PI/180)*dist;
+    s.style.cssText=`
+      left:${t.clientX}px; top:${t.clientY}px;
+      --tx:${tx}px; --ty:${ty}px;
+      --tx2:${tx*1.6}px; --ty2:${ty*1.6}px;
+      font-size:${0.9+Math.random()*0.8}rem;
+      animation-delay:${i*40}ms;
+    `;
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),900);
+  }
+},{passive:true});
+
+/* ══════════════════════════════════════════════════
+   VIDEO — hide placeholder once video loads
+══════════════════════════════════════════════════ */
+document.getElementById('myVideo').addEventListener('loadeddata',()=>{
+  document.getElementById('videoPlaceholder').style.display='none';
+});
+</script>
+</body>
+</html>
