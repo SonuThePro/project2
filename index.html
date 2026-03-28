@@ -269,6 +269,7 @@ h1{
 }
 
 .envelope-wrap{
+  overflow: visible;
   position:relative;
   width:min(390px,92vw);
   /* envelope body height */
@@ -358,7 +359,7 @@ h1{
   transition:
     transform .95s cubic-bezier(.22,1,.36,1),
     opacity .35s ease;
-  z-index:3;overflow:hidden;
+  z-index:3;overflow: visible;
 }
 .envelope-wrap.open .letter{
   /* slide up so it appears above the envelope */
@@ -370,8 +371,9 @@ h1{
 
 /* ── lined paper ── */
 .letter-paper{
-  overflow-y: auto;
+  overflow-y: scroll;
   max-height: 420px;
+  height: 420px;
   -webkit-overflow-scrolling: touch;
   background:
     repeating-linear-gradient(
