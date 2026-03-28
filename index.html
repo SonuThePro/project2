@@ -359,7 +359,7 @@ h1{
   transition:
     transform .95s cubic-bezier(.22,1,.36,1),
     opacity .35s ease;
-  z-index:3;overflow: visible;
+  z-index:3;overflow: hidden;
 }
 .envelope-wrap.open .letter{
   /* slide up so it appears above the envelope */
@@ -371,10 +371,10 @@ h1{
 
 /* ── lined paper ── */
 .letter-paper{
-  overflow-y: scroll;
-  max-height: 420px;
   height: 420px;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background:
     repeating-linear-gradient(
       transparent,transparent 27px,
@@ -387,7 +387,6 @@ h1{
     ),
     #fffef0;
   padding:1.3rem 1.3rem 1.3rem 3.8rem;
-  height:100%;overflow-y:auto;
   color:#3a2a1a;font-family:'Caveat',cursive;
   font-size:clamp(.92rem,3.2vw,1.08rem);line-height:28px;
 }
