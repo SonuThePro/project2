@@ -272,10 +272,10 @@ h1{
   overflow: visible;
   position:relative;
   width:min(390px,92vw);
-  /* envelope body height */
   --eh:min(260px,66vw);
   height:var(--eh);
   cursor:pointer;flex-shrink:0;
+  touch-action: manipulation;
 }
 
 /* ── body ── */
@@ -375,7 +375,7 @@ h1{
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
   background:
     repeating-linear-gradient(
       transparent,transparent 27px,
@@ -708,7 +708,7 @@ h1{
     <h2 class="section-title">A Special Message 💌</h2>
     <p class="letter-hint">Tap the envelope to open · tap the letter to reveal a secret 🤫</p>
     <div class="envelope-container">
-      <div class="envelope-wrap" id="envelope" onclick="toggleEnvelope()">
+      <div class="envelope-wrap" id="envelope" onclick="handleEnvelopeTap(event)">
         <div class="env-body"></div>
         <div class="env-left"></div>
         <div class="env-right"></div>
@@ -716,7 +716,7 @@ h1{
         <div class="env-top"></div>
         <div class="env-seal">💖</div>
 
-        <div class="letter">
+        <div class="letter" ontouchstart="event.stopPropagation()" ontouchmove="event.stopPropagation()" ontouchend="event.stopPropagation()">
           <div class="letter-hearts">
             <span style="top:7%;left:4%">💕</span>
             <span style="top:10%;right:5%;animation-delay:.6s">💗</span>
@@ -1137,6 +1137,13 @@ document.getElementById('letterDate').textContent =
    ENVELOPE
 ══════════════════════════════════════════════════ */
 let envOpen=false;
+
+// Only toggle if the tap was on the envelope itself, not on the letter
+function handleEnvelopeTap(e){
+  if(e.target.closest('.letter')) return; // ignore taps on the letter
+  envOpen ? closeEnvelope() : openEnvelope();
+}
+
 function toggleEnvelope(){ envOpen ? closeEnvelope() : openEnvelope(); }
 function openEnvelope(){
   envOpen=true;
