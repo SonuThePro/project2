@@ -1438,8 +1438,8 @@ h1{
     <div class="locked-box">
       <span class="lock-icon">🔒</span>
       <!-- ✏️ EDIT THE QUESTION BELOW ✏️ -->
-      <p class="lock-prompt">What was the first thing I ever said to you?</p>
-      <p class="lock-sub">Type the answer below…</p>
+      <p class="lock-prompt">When did you proposed to me?</p>
+      <p class="lock-sub">Guess it:)</p>
       <div class="lock-input-row">
         <input class="lock-input" id="lockInput" type="text" placeholder="your answer…" autocomplete="off"/>
         <button class="lock-submit" onclick="checkLock()">Unlock 🔑</button>
@@ -1450,7 +1450,7 @@ h1{
       <!-- ✏️ EDIT THE SECRET MESSAGE BELOW ✏️ -->
       <div class="lock-message" id="lockMessage">
         🎉 You got it! Here's your secret:<br><br>
-        I knew from the very first second that you were different from everyone else. You still are. Happy 18th 💖
+        I knew from the very first second that you were different from everyone else, You still are and always will be. Happy 18th 💖
       </div>
     </div>
   </div>
@@ -1479,7 +1479,7 @@ h1{
         <div class="bucket-check">✓</div><div class="bucket-text">Have a late-night conversation under the stars</div><div class="bucket-emoji">⭐</div>
       </div>
       <div class="bucket-item" onclick="this.classList.toggle('checked');updateBucket()">
-        <div class="bucket-check">✓</div><div class="bucket-text">Go on a spontaneous road trip</div><div class="bucket-emoji">🚗</div>
+        <div class="bucket-check">✓</div><div class="bucket-text">Go on a long road trip</div><div class="bucket-emoji">🚗</div>
       </div>
       <div class="bucket-item" onclick="this.classList.toggle('checked');updateBucket()">
         <div class="bucket-check">✓</div><div class="bucket-text">Watch your favourite movie together</div><div class="bucket-emoji">🎬</div>
@@ -1488,7 +1488,7 @@ h1{
         <div class="bucket-check">✓</div><div class="bucket-text">Go to the beach and do nothing but exist</div><div class="bucket-emoji">🏖️</div>
       </div>
       <div class="bucket-item" onclick="this.classList.toggle('checked');updateBucket()">
-        <div class="bucket-check">✓</div><div class="bucket-text">Share the most perfect hug ever</div><div class="bucket-emoji">🤗</div>
+        <div class="bucket-check">✓</div><div class="bucket-text">Share the most perfect hug and kiss ever</div><div class="bucket-emoji">🤗</div>
       </div>
       <div class="bucket-item" onclick="this.classList.toggle('checked');updateBucket()">
         <div class="bucket-check">✓</div><div class="bucket-text">Try something totally new together</div><div class="bucket-emoji">🎯</div>
@@ -1497,7 +1497,7 @@ h1{
         <div class="bucket-check">✓</div><div class="bucket-text">Cook something (attempt to cook 😂)</div><div class="bucket-emoji">👨‍🍳</div>
       </div>
       <div class="bucket-item" onclick="this.classList.toggle('checked');updateBucket()">
-        <div class="bucket-check">✓</div><div class="bucket-text">Take 1000 photos in one day</div><div class="bucket-emoji">📸</div>
+        <div class="bucket-check">✓</div><div class="bucket-text">Take so many photos in one day</div><div class="bucket-emoji">📸</div>
       </div>
       <div class="bucket-item" onclick="this.classList.toggle('checked');updateBucket()">
         <div class="bucket-check">✓</div><div class="bucket-text">Dance like nobody's watching</div><div class="bucket-emoji">💃</div>
@@ -1675,16 +1675,16 @@ setInterval(()=>{ goToQuote((qIdx+1)%QUOTES.length); }, 4500);
    APOLOGY — no-repeat GIF shuffle
 ══════════════════════════════════════════════════ */
 const NO_MSGS = [
-  "Please… will you forgive me? 🥺",
-  "I promise I'll do better… please? 💔",
-  "I'm really really sorry… one more chance? 😭",
+  "Please will you forgive me? 🥺",
+  "I promise I'll do better please? 💔",
+  "I'm really really sorry one more chance? 😭",
   "My heart breaks without your forgiveness 💙",
-  "Okay but… I love you too much to give up 🌹",
+  "Okay but I love you too much to give up 🌹",
   "Nooooo don't do this to me 😢",
-  "I'll write you 1000 sorries… FORGIVE ME 🥹",
+  "I'll write you 1000 sorries FORGIVE ME 🥹",
   "You're my favourite person, please 🙏",
-  "Fine… but I'm not giving up on us 💕",
-  "Last time I promise… PLEASE 😇",
+  "Fine but I'm not giving up on us 💕",
+  "Last time I promise PLEASE 😇",
 ];
 
 let gifQ = [], noCount = 0;
@@ -2135,7 +2135,7 @@ const BALLOON_WORDS=[
   'Amazing','Iconic','Dreamer','Warm','Loyal',
   'Radiant','Unique','Mine 💕',
 ]; // exactly 18 — one for each year
-const BALLOON_EMOJIS=['🎈','🪀','💜','🩷','💙','🩵','💚','🧡'];
+const BALLOON_EMOJIS=['🎈','💜','🩷','💙','🩵','💚','🧡','💖'];
 
 let balloonScore=0, balloonWords=[...BALLOON_WORDS], balloonTimers=[], balloonRunning=false;
 
