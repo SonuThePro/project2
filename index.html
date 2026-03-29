@@ -1275,6 +1275,238 @@ h1{
   font-family:'Dancing Script',cursive;font-size:1.2rem;color:#1db954;
   margin-bottom:1rem;clear:both;text-align:center;
 }
+
+/* ══════════════════════════════════════════
+   PHOTO GALLERY — flip polaroids
+══════════════════════════════════════════ */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(160px,42vw),1fr));
+  gap:1.6rem;padding:.5rem;
+}
+.gallery-card{
+  perspective:900px;cursor:pointer;
+}
+.gallery-inner{
+  position:relative;width:100%;padding-bottom:115%;
+  transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.4,0,.2,1);
+}
+.gallery-card.flipped .gallery-inner{transform:rotateY(180deg)}
+.gallery-face,.gallery-back-face{
+  position:absolute;inset:0;backface-visibility:hidden;
+  border-radius:4px;overflow:hidden;
+}
+.gallery-face{
+  background:#fffef8;
+  padding:8px 8px 36px;
+  box-shadow:0 8px 28px rgba(0,0,0,.38);
+}
+.gallery-face-img{
+  width:100%;height:calc(100% - 36px);
+  background:linear-gradient(135deg,#ffd4e5,#c9b8ff,#b8e4ff);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;filter:blur(0px);
+  overflow:hidden;position:relative;
+}
+.gallery-face-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:blur(6px);transition:filter .4s;
+}
+.gallery-card.flipped .gallery-face-img img{filter:blur(0px)}
+.gallery-blur-hint{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:.3rem;color:rgba(80,40,80,.7);
+  font-family:'Caveat',cursive;font-size:.8rem;text-align:center;padding:.5rem;
+  background:rgba(255,255,255,.15);backdrop-filter:blur(2px);
+  transition:opacity .4s;
+}
+.gallery-card.flipped .gallery-blur-hint{opacity:0;pointer-events:none}
+.gallery-caption{
+  position:absolute;bottom:0;left:0;right:0;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Caveat',cursive;font-size:.9rem;color:#5a3a3a;
+  padding:0 6px;text-align:center;
+}
+.gallery-back-face{
+  background:linear-gradient(135deg,#ff6b9d,#c44b82);
+  transform:rotateY(180deg);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:.5rem;padding:1rem;text-align:center;
+}
+.gallery-back-face .back-emoji{font-size:2rem}
+.gallery-back-face .back-text{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(.9rem,3vw,1.1rem);color:#fff;line-height:1.4;
+}
+.gallery-tap-hint{
+  text-align:center;font-size:.8rem;opacity:.55;font-style:italic;margin-bottom:1rem;
+}
+
+/* ══════════════════════════════════════════
+   TYPEWRITER LOVE LETTER
+══════════════════════════════════════════ */
+.typewriter-section{text-align:center}
+.typewriter-paper{
+  max-width:520px;margin:0 auto;
+  background:
+    repeating-linear-gradient(transparent,transparent 27px,rgba(100,160,255,.13) 27px,rgba(100,160,255,.13) 28px),
+    linear-gradient(to right,transparent 52px,rgba(255,120,120,.22) 52px,rgba(255,120,120,.22) 54px,transparent 54px),
+    #fffef0;
+  border-radius:6px;
+  box-shadow:0 12px 40px rgba(0,0,0,.4),inset 0 0 0 1px rgba(180,150,120,.2);
+  padding:1.8rem 1.8rem 1.8rem 4rem;
+  color:#3a2a1a;
+  font-family:'Caveat',cursive;
+  font-size:clamp(.95rem,3.2vw,1.1rem);
+  line-height:28px;
+  text-align:left;
+  min-height:180px;
+  position:relative;
+}
+.tw-cursor{
+  display:inline-block;width:2px;height:1.1em;
+  background:#c44b82;margin-left:1px;vertical-align:text-bottom;
+  animation:twBlink .75s step-end infinite;
+}
+@keyframes twBlink{50%{opacity:0}}
+.tw-start-btn{
+  background:linear-gradient(135deg,#ff6b9d,#c44b82);
+  color:#fff;border:none;border-radius:50px;
+  padding:.9rem 2.2rem;font-size:1.1rem;
+  font-family:'Dancing Script',cursive;font-weight:700;
+  cursor:pointer;box-shadow:0 4px 20px rgba(255,107,157,.5);
+  transition:transform .2s;margin-bottom:1.5rem;
+}
+.tw-start-btn:active{transform:scale(.93)}
+.tw-restart-btn{
+  background:rgba(255,255,255,.12);color:#fff;
+  border:2px solid rgba(255,255,255,.25);border-radius:50px;
+  padding:.6rem 1.6rem;font-size:.95rem;
+  font-family:'Dancing Script',cursive;cursor:pointer;
+  transition:all .3s;margin-top:1rem;display:none;
+}
+
+/* ══════════════════════════════════════════
+   MORSE CODE
+══════════════════════════════════════════ */
+.morse-section{text-align:center}
+.morse-light-row{
+  display:flex;justify-content:center;align-items:flex-end;
+  gap:.5rem;flex-wrap:wrap;margin:1.5rem auto;max-width:420px;
+}
+.morse-dot,.morse-dash{
+  border-radius:50%;background:rgba(255,255,255,.12);
+  border:2px solid rgba(255,255,255,.2);
+  flex-shrink:0;
+  transition:background .05s,box-shadow .05s;
+}
+.morse-dot{width:18px;height:18px}
+.morse-dash{width:48px;height:18px;border-radius:9px}
+.morse-dot.lit,.morse-dash.lit{
+  background:#ffd700;
+  box-shadow:0 0 12px 4px rgba(255,215,0,.8),0 0 30px 8px rgba(255,200,0,.4);
+}
+.morse-word-label{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(1.1rem,4vw,1.5rem);color:#ffd4e5;
+  letter-spacing:3px;min-height:40px;margin-bottom:.5rem;
+}
+.morse-decode-box{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+  border-radius:16px;padding:1rem 1.5rem;max-width:380px;margin:0 auto;
+  font-family:'Caveat',cursive;font-size:1rem;line-height:1.6;
+  color:rgba(255,255,255,.75);
+}
+.morse-decode-box strong{color:#ffd700}
+.morse-play-btn{
+  background:linear-gradient(135deg,#ffd700,#f0a500);
+  color:#1a0a2e;border:none;border-radius:50px;
+  padding:.85rem 2.2rem;font-size:1.05rem;
+  font-family:'Dancing Script',cursive;font-weight:700;
+  cursor:pointer;box-shadow:0 4px 20px rgba(255,215,0,.4);
+  transition:transform .2s;margin:1rem auto .5rem;display:block;
+}
+.morse-play-btn:active{transform:scale(.93)}
+.morse-play-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ══════════════════════════════════════════
+   CHOOSE YOUR ENDING STORY
+══════════════════════════════════════════ */
+.story-box{
+  max-width:500px;margin:0 auto;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:24px;padding:2rem 1.5rem;
+  text-align:center;
+}
+.story-scene{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(1rem,3.5vw,1.15rem);
+  color:rgba(255,255,255,.92);line-height:1.7;
+  margin-bottom:1.5rem;min-height:80px;
+}
+.story-emoji{font-size:2.8rem;margin-bottom:.8rem;display:block}
+.story-choices{display:flex;flex-direction:column;gap:.8rem}
+.story-choice{
+  background:rgba(255,255,255,.1);
+  border:1.5px solid rgba(255,255,255,.25);
+  border-radius:50px;padding:.75rem 1.4rem;
+  font-family:'Dancing Script',cursive;font-size:1.1rem;
+  color:#ffd4e5;cursor:pointer;transition:all .25s;text-align:left;
+}
+.story-choice:hover,.story-choice:active{
+  background:linear-gradient(135deg,rgba(255,107,157,.35),rgba(196,75,130,.35));
+  border-color:#ff6b9d;transform:scale(1.02);
+}
+.story-restart-btn{
+  background:rgba(255,255,255,.1);color:#fff;
+  border:2px solid rgba(255,255,255,.25);border-radius:50px;
+  padding:.65rem 1.8rem;font-size:1rem;
+  font-family:'Dancing Script',cursive;cursor:pointer;
+  transition:all .3s;margin-top:1rem;
+}
+.story-progress{
+  font-family:'Caveat',cursive;font-size:.85rem;opacity:.5;margin-bottom:1rem;
+}
+
+/* ══════════════════════════════════════════
+   ANNIVERSARY COUNTDOWN
+══════════════════════════════════════════ */
+.anniv-grid{
+  display:flex;justify-content:center;
+  gap:.65rem;flex-wrap:wrap;margin:1.2rem 0;
+}
+.anniv-box{
+  background:linear-gradient(135deg,rgba(255,107,157,.2),rgba(196,75,130,.2));
+  border:1.5px solid rgba(255,107,157,.4);
+  border-radius:16px;padding:.9rem 1rem;
+  min-width:70px;text-align:center;
+  box-shadow:0 0 20px rgba(255,107,157,.15);
+}
+.anniv-number{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.7rem,6vw,2.5rem);font-weight:700;
+  display:block;line-height:1;color:#ff6b9d;
+}
+.anniv-label{font-size:.68rem;opacity:.8;text-transform:uppercase;letter-spacing:1px;margin-top:.3rem;color:#ffd4e5}
+.anniv-date-label{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(1rem,3.5vw,1.3rem);
+  color:#ffd4e5;opacity:.8;text-align:center;margin-top:.8rem;
+}
+.anniv-heart{
+  font-size:2rem;display:block;text-align:center;margin-bottom:.5rem;
+  animation:heartBeat 1.2s ease-in-out infinite;
+}
+@keyframes heartBeat{
+  0%,100%{transform:scale(1)}
+  14%{transform:scale(1.2)}
+  28%{transform:scale(1)}
+  42%{transform:scale(1.15)}
+  70%{transform:scale(1)}
+}
 </style>
 </head>
 <body>
@@ -1830,6 +2062,182 @@ h1{
     <p class="blow-instruction" id="blowInstruction">Tap the button then blow into your phone 🎂</p>
     <button class="mic-btn" id="micBtn" onclick="startBlowing()">🎤 Start</button>
     <p class="candle-progress" id="candleProgress"></p>
+  </div>
+
+
+  <!-- ═══ PHOTO GALLERY (flip to reveal) ═══ -->
+  <div class="section">
+    <h2 class="section-title">Our Moments 📸</h2>
+    <p class="section-sub">Tap each photo to reveal it 💕</p>
+    <p class="gallery-tap-hint">↓ Tap a polaroid to unblur the memory</p>
+    <!--
+    HOW TO ADD PHOTOS:
+    Replace src="" in each .gallery-face-img img with your actual file names
+    e.g. src="photo1.jpg" — put the files in the same folder as this HTML.
+    Edit the back-text for each card too!
+    -->
+    <div class="gallery-grid">
+
+      <div class="gallery-card" onclick="this.classList.toggle('flipped')">
+        <div class="gallery-inner">
+          <div class="gallery-face">
+            <div class="gallery-face-img">
+              <img src="the_beginning.jpg" alt="">
+              <div class="gallery-blur-hint">👆<br>tap to reveal</div>
+            </div>
+            <div class="gallery-caption">The very beginning 💕</div>
+          </div>
+          <div class="gallery-back-face">
+            <span class="back-emoji">💕</span>
+            <div class="back-text">The first pic of us been together 🥺</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-card" onclick="this.classList.toggle('flipped')">
+        <div class="gallery-inner">
+          <div class="gallery-face">
+            <div class="gallery-face-img">
+              <img src="laughed.jpg" alt="">
+              <div class="gallery-blur-hint">👆<br>tap to reveal</div>
+            </div>
+            <div class="gallery-caption">Cute pics of us 🥰</div>
+          </div>
+          <div class="gallery-back-face">
+            <span class="back-emoji">😍</span>
+            <div class="back-text">Memorable photoshoot 🌸</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-card" onclick="this.classList.toggle('flipped')">
+        <div class="gallery-inner">
+          <div class="gallery-face">
+            <div class="gallery-face-img">
+              <img src="fav.jpg" alt="">
+              <div class="gallery-blur-hint">👆<br>tap to reveal</div>
+            </div>
+            <div class="gallery-caption">My favourite memory 🌸</div>
+          </div>
+          <div class="gallery-back-face">
+            <span class="back-emoji">🌸</span>
+            <div class="back-text">If I could freeze one moment — it would be this one 💖</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-card" onclick="this.classList.toggle('flipped')">
+        <div class="gallery-inner">
+          <div class="gallery-face">
+            <div class="gallery-face-img">
+              <img src="stunning.jpg" alt="">
+              <div class="gallery-blur-hint">👆<br>tap to reveal</div>
+            </div>
+            <div class="gallery-caption">You looked stunning ✨</div>
+          </div>
+          <div class="gallery-back-face">
+            <span class="back-emoji">✨</span>
+            <div class="back-text">I couldn't stop staring. You were breathtaking 😍</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-card" onclick="this.classList.toggle('flipped')">
+        <div class="gallery-inner">
+          <div class="gallery-face">
+            <div class="gallery-face-img">
+              <img src="adventure.jpg" alt="">
+              <div class="gallery-blur-hint">👆<br>tap to reveal</div>
+            </div>
+            <div class="gallery-caption">Adventure mode on 🌍</div>
+          </div>
+          <div class="gallery-back-face">
+            <span class="back-emoji">🌍</span>
+            <div class="back-text">Every adventure is 10x better with you 💫</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-card" onclick="this.classList.toggle('flipped')">
+        <div class="gallery-inner">
+          <div class="gallery-face">
+            <div class="gallery-face-img">
+              <img src="always.jpg" alt="">
+              <div class="gallery-blur-hint">👆<br>tap to reveal</div>
+            </div>
+            <div class="gallery-caption">Us, always 💖</div>
+          </div>
+          <div class="gallery-back-face">
+            <span class="back-emoji">💖</span>
+            <div class="back-text">Always you. It was always going to be you 🫶</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ TYPEWRITER LOVE LETTER ═══ -->
+  <div class="section typewriter-section">
+    <h2 class="section-title">A Letter, Word by Word 💌</h2>
+    <p class="section-sub">Press play and watch every word appear, just for you 🌸</p>
+    <button class="tw-start-btn" id="twStartBtn" onclick="startTypewriter()">▶ Read my letter</button>
+    <div class="typewriter-paper" id="twPaper">
+      <span id="twOutput"></span><span class="tw-cursor" id="twCursor" style="display:none"></span>
+    </div>
+    <button class="tw-restart-btn" id="twRestartBtn" onclick="restartTypewriter()">↺ Read again</button>
+  </div>
+
+  <!-- ═══ MORSE CODE HIDDEN MESSAGE ═══ -->
+  <div class="section morse-section">
+    <h2 class="section-title">A Secret in Morse Code 💡</h2>
+    <p class="section-sub">Watch the lights blink — can you decode the message? ✨</p>
+    <button class="morse-play-btn" id="morsePlayBtn" onclick="playMorse()">▶ Play the message</button>
+    <div class="morse-word-label" id="morseWordLabel"></div>
+    <div class="morse-light-row" id="morseLights"></div>
+    <div class="morse-decode-box">
+      <strong>Morse decoder:</strong><br>
+      · = dot &nbsp;|&nbsp; — = dash &nbsp;|&nbsp; space between letters<br><br>
+      I = ·· &nbsp; L = ·—·· &nbsp; O = ——— &nbsp; V = ···— &nbsp; E = · &nbsp; Y = —·—— &nbsp; U = ··—<br><br>
+      <span id="morseReveal" style="display:none;color:#ffd700;font-family:'Dancing Script',cursive;font-size:1.2rem">
+        ✦ &nbsp;"I love you"&nbsp; ✦
+      </span>
+      <span id="morseHint" style="opacity:.6">Decode the blinking lights above 🔍</span>
+    </div>
+  </div>
+
+  <!-- ═══ CHOOSE YOUR ENDING STORY ═══ -->
+  <div class="section">
+    <h2 class="section-title">Our Story — You Choose 📖</h2>
+    <p class="section-sub">Pick a path and see where it leads 💕</p>
+    <div class="story-box">
+      <div class="story-progress" id="storyProgress">Chapter 1 of 3</div>
+      <span class="story-emoji" id="storyEmoji">🌙</span>
+      <div class="story-scene" id="storyScene">
+        It's a late night. You get a message: "Hey… are you awake?" You smile — it's him. What do you do?
+      </div>
+      <div class="story-choices" id="storyChoices"></div>
+      <button class="story-restart-btn" id="storyRestartBtn" onclick="startStory()" style="display:none">↺ Read again 🌸</button>
+    </div>
+  </div>
+
+  <!-- ═══ ANNIVERSARY COUNTDOWN ═══ -->
+  <div class="section" style="text-align:center">
+    <h2 class="section-title">Next Anniversary 🧑‍❤️‍👩</h2>
+    <p class="section-sub">Counting every second until our special day 💕</p>
+    <span class="anniv-heart">💖</span>
+    <!--
+    ✏️ SET YOUR ANNIVERSARY DATE:
+    Change ANNIV_DATE in the JS below (search for "ANNIV_DATE")
+    Format: new Date(YEAR, MONTH-1, DAY)  e.g. 14 Feb → new Date(2026, 1, 14)
+    -->
+    <div class="anniv-grid">
+      <div class="anniv-box"><span class="anniv-number" id="annivD">0</span><div class="anniv-label">Days</div></div>
+      <div class="anniv-box"><span class="anniv-number" id="annivH">0</span><div class="anniv-label">Hours</div></div>
+      <div class="anniv-box"><span class="anniv-number" id="annivM">0</span><div class="anniv-label">Mins</div></div>
+      <div class="anniv-box"><span class="anniv-number" id="annivS">0</span><div class="anniv-label">Secs</div></div>
+    </div>
+    <p class="anniv-date-label" id="annivDateLabel"></p>
   </div>
 
 </div><!-- /.content -->
@@ -3086,6 +3494,164 @@ function revealNextPanel(num){
 function openSpotify(){
   document.getElementById('spotifyModal').classList.add('active');
 }
+
+/* ══════════════════════════════════════════════════
+   TYPEWRITER LOVE LETTER
+══════════════════════════════════════════════════ */
+const TW_LETTER = `Dear Harshuu,\n\nI wanted to write you something that arrives slowly — word by word — because that's how I fell for you. Slowly, and then all at once.\n\nYou are the kind of person who makes ordinary nights feel like the best nights of my life. The way you laugh, the way you think, the way you exist — it rewires something in me.\n\nI am so proud of who you are becoming. At 18, you already carry a grace that most people spend their whole lives looking for.\n\nToday I want you to know: you are loved. Completely. Irrevocably. For exactly who you are — every beautiful, chaotic, wonderful part of you.\n\nHappy Birthday, my love. Here's to every chapter still to come. 🌟\n\nWith everything I have,\n— Sarvesh 💕`;
+
+let twTimer=null, twIndex=0, twRunning=false;
+
+function startTypewriter(){
+  document.getElementById('twStartBtn').style.display='none';
+  document.getElementById('twCursor').style.display='inline-block';
+  document.getElementById('twRestartBtn').style.display='none';
+  twIndex=0; document.getElementById('twOutput').textContent=''; twRunning=true;
+  typeNextChar();
+}
+function typeNextChar(){
+  if(!twRunning) return;
+  if(twIndex>=TW_LETTER.length){
+    document.getElementById('twCursor').style.display='none';
+    document.getElementById('twRestartBtn').style.display='inline-block';
+    spawnHearts(16); return;
+  }
+  const ch=TW_LETTER[twIndex++];
+  document.getElementById('twOutput').textContent+=ch;
+  const delay=ch==='\n'?180:(ch===','||ch==='.'||ch==='—')?110:38;
+  twTimer=setTimeout(typeNextChar,delay);
+}
+function restartTypewriter(){
+  clearTimeout(twTimer); twRunning=false;
+  document.getElementById('twOutput').textContent='';
+  document.getElementById('twCursor').style.display='none';
+  document.getElementById('twRestartBtn').style.display='none';
+  document.getElementById('twStartBtn').style.display='inline-block';
+}
+
+/* ══════════════════════════════════════════════════
+   MORSE CODE — "I LOVE YOU"
+══════════════════════════════════════════════════ */
+const MORSE_SEQ=[
+  {t:'dot'},{t:'dot'},{t:'space'},
+  {t:'dot'},{t:'dash'},{t:'dot'},{t:'dot'},{t:'space'},
+  {t:'dash'},{t:'dash'},{t:'dash'},{t:'space'},
+  {t:'dot'},{t:'dot'},{t:'dot'},{t:'dash'},{t:'space'},
+  {t:'dot'},{t:'word-space'},
+  {t:'dash'},{t:'dot'},{t:'dash'},{t:'dash'},{t:'space'},
+  {t:'dash'},{t:'dash'},{t:'dash'},{t:'space'},
+  {t:'dot'},{t:'dot'},{t:'dash'},
+];
+const MORSE_WORDS=['I','L','O','V','E',' ','Y','O','U'];
+let morseRunning=false;
+
+(function buildMorseLights(){
+  const row=document.getElementById('morseLights');
+  MORSE_SEQ.forEach((s,i)=>{
+    if(s.t==='space'||s.t==='word-space') return;
+    const el=document.createElement('div');
+    el.className=s.t==='dot'?'morse-dot':'morse-dash';
+    el.id='ml'+i; row.appendChild(el);
+  });
+})();
+
+function playMorse(){
+  if(morseRunning) return;
+  morseRunning=true;
+  document.getElementById('morsePlayBtn').disabled=true;
+  const labelEl=document.getElementById('morseWordLabel');
+  labelEl.textContent='';
+  document.getElementById('morseReveal').style.display='none';
+  document.getElementById('morseHint').style.display='inline';
+  document.querySelectorAll('.morse-dot,.morse-dash').forEach(el=>el.classList.remove('lit'));
+  let t=0, letterIdx=0;
+  MORSE_SEQ.forEach((s,i)=>{
+    if(s.t==='space'){
+      const li=letterIdx;
+      setTimeout(()=>{ labelEl.textContent=MORSE_WORDS.slice(0,li+1).join(''); letterIdx++; },t+80);
+      t+=300; return;
+    }
+    if(s.t==='word-space'){
+      const li2=letterIdx;
+      setTimeout(()=>{ labelEl.textContent=MORSE_WORDS.slice(0,li2+1).join(''); letterIdx++; },t);
+      t+=700; return;
+    }
+    const dur=s.t==='dot'?160:380;
+    const st=t, si=i;
+    setTimeout(()=>{ const el=document.getElementById('ml'+si); if(el){ el.classList.add('lit'); setTimeout(()=>el.classList.remove('lit'),dur-40); } },st);
+    t+=dur+120;
+  });
+  setTimeout(()=>{
+    labelEl.textContent='I LOVE YOU';
+    document.getElementById('morseReveal').style.display='block';
+    document.getElementById('morseHint').style.display='none';
+    document.getElementById('morsePlayBtn').disabled=false;
+    morseRunning=false; spawnHearts(20);
+  },t+400);
+}
+
+/* ══════════════════════════════════════════════════
+   CHOOSE YOUR ENDING STORY
+══════════════════════════════════════════════════ */
+const STORY_TREE={
+  emoji:'🌙',scene:'It\'s a late night. You get a message: "Hey… are you awake?" You smile — it\'s him. What do you do?',progress:'Chapter 1 of 3',
+  choices:[
+    {text:'💬 Reply instantly "Always awake for you 😊"',next:{
+      emoji:'📱',scene:'He says "I\'ve been thinking about you all day. Can I call you?" Your heart jumps. What do you reply?',progress:'Chapter 2 of 3',
+      choices:[
+        {text:'📞 "Of course, calling you right now!"',next:{emoji:'💕',scene:'You talk for three hours about everything and nothing. By the time you hang up, you both know something has shifted forever. He whispers "Happy Birthday, my love. I\'m so lucky." 💖',progress:'✨ The End',choices:[]}},
+        {text:'😊 "Yes but only if you make me laugh first"',next:{emoji:'😂',scene:'He tells you the worst joke you\'ve ever heard — and you laugh so hard you cry. Then he says: "That laugh is my favourite sound in the whole universe. Happy Birthday, Harshuu. 🥺💕"',progress:'✨ The End',choices:[]}}
+      ]
+    }},
+    {text:'🎭 Wait 5 minutes (to seem cool 😂)',next:{
+      emoji:'⏳',scene:'"Okay I didn\'t wait, I saw it immediately 😅" he confesses. You both laugh. He asks: "What are you wishing for on your birthday?" What do you say?',progress:'Chapter 2 of 3',
+      choices:[
+        {text:'⭐ "For this feeling to never end"',next:{emoji:'🌠',scene:'He goes quiet for a moment. Then: "That\'s my wish too. Every single day." You fall asleep smiling, knowing you are exactly where you\'re meant to be. Happy Birthday, Harshuu 🌟💖',progress:'✨ The End',choices:[]}},
+        {text:'🎂 "For more moments exactly like this one"',next:{emoji:'🎂',scene:'"Then consider it granted," he says. "I\'ll make sure of it. Every year. Every birthday. Always." You smile and think — yeah, this is everything. Happy 18th, love 💕🎂',progress:'✨ The End',choices:[]}}
+      ]
+    }}
+  ]
+};
+let storyNode=STORY_TREE;
+function startStory(){ storyNode=STORY_TREE; renderStory(); }
+function renderStory(){
+  const n=storyNode;
+  document.getElementById('storyEmoji').textContent=n.emoji;
+  document.getElementById('storyScene').textContent=n.scene;
+  document.getElementById('storyProgress').textContent=n.progress;
+  const cc=document.getElementById('storyChoices');
+  const rb=document.getElementById('storyRestartBtn');
+  cc.innerHTML='';
+  if(!n.choices.length){ rb.style.display='block'; spawnHearts(24); return; }
+  rb.style.display='none';
+  n.choices.forEach(c=>{ const b=document.createElement('button'); b.className='story-choice'; b.textContent=c.text; b.onclick=()=>{ storyNode=c.next; renderStory(); }; cc.appendChild(b); });
+}
+startStory();
+
+/* ══════════════════════════════════════════════════
+   ANNIVERSARY COUNTDOWN
+══════════════════════════════════════════════════ */
+// ✏️ CHANGE THIS to your actual anniversary date!
+// Format: new Date(YEAR, MONTH-1, DAY)
+const ANNIV_DATE=new Date(2026,4,23); // ← e.g. June 28 2026
+
+function getNextAnniv(){
+  const now=new Date();
+  let t=new Date(now.getFullYear(),ANNIV_DATE.getMonth(),ANNIV_DATE.getDate());
+  if(t<=now) t.setFullYear(t.getFullYear()+1);
+  return t;
+}
+function updateAnniv(){
+  const diff=getNextAnniv()-new Date();
+  if(diff<=0){ ['annivD','annivH','annivM','annivS'].forEach(id=>document.getElementById(id).textContent='0'); document.getElementById('annivDateLabel').textContent='🎉 Happy Anniversary! 🎉'; return; }
+  document.getElementById('annivD').textContent=Math.floor(diff/86400000);
+  document.getElementById('annivH').textContent=Math.floor((diff%86400000)/3600000);
+  document.getElementById('annivM').textContent=Math.floor((diff%3600000)/60000);
+  document.getElementById('annivS').textContent=Math.floor((diff%60000)/1000);
+  document.getElementById('annivDateLabel').textContent='Next: '+getNextAnniv().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+' 💖';
+}
+updateAnniv();
+setInterval(updateAnniv,1000);
 
 </script>
 </body>
