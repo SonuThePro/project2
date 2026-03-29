@@ -368,7 +368,7 @@ h1{
 .envelope-container{
   display:flex;justify-content:center;align-items:flex-end;
   /* tall enough to show the letter above the envelope */
-  min-height:580px;
+  min-height:1100px;
   position:relative;
 }
 
@@ -440,8 +440,7 @@ h1{
 
 /* ══ LETTER ══
    Starts hidden INSIDE the envelope (translateY(0), opacity 0).
-   On open: slides up 280px so it sits nicely above the envelope.
-   280px ≈ envelope height + a little extra so it's fully readable.
+   On open: slides up so it sits nicely above the envelope.
 */
 .letter{
   position:absolute;
@@ -449,8 +448,8 @@ h1{
   width:98%;left:3%;
   /* bottom of letter = bottom of envelope */
   bottom:0;
-  /* rough height — enough for content */
-  height:420px;
+  /* tall enough for long content on mobile */
+  height:780px;
   background:#fffef0;
   border-radius:4px 4px 2px 2px;
   box-shadow:
@@ -467,7 +466,7 @@ h1{
 }
 .envelope-wrap.open .letter{
   /* slide up so it appears above the envelope */
-  transform:translateY(-390px) scale(1);
+  transform:translateY(-420px) scale(1);
   opacity:1;
   pointer-events:all;
   z-index: 10;
@@ -475,15 +474,15 @@ h1{
 
 /* ── lined paper ── */
 .letter-paper{
-  height: 420px;
+  height: 780px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   touch-action: pan-y pinch-zoom;
   background:
     repeating-linear-gradient(
-      transparent,transparent 27px,
-      rgba(100,160,255,.15) 27px,rgba(100,160,255,.15) 28px
+      transparent,transparent 30px,
+      rgba(100,160,255,.15) 30px,rgba(100,160,255,.15) 31px
     ),
     linear-gradient(
       to right,transparent 52px,
@@ -491,9 +490,9 @@ h1{
       transparent 54px
     ),
     #fffef0;
-  padding:1.3rem 1.3rem 1.3rem 3.8rem;
+  padding:1.5rem 1.3rem 2rem 3.8rem;
   color:#3a2a1a;font-family:'Caveat',cursive;
-  font-size:clamp(.92rem,3.2vw,1.08rem);line-height:28px;
+  font-size:clamp(1.05rem,4vw,1.2rem);line-height:31px;
 }
 .letter-date{text-align:right;font-size:.87rem;color:#8a6a5a;margin-bottom:.4rem}
 .letter-salutation{
@@ -1080,7 +1079,7 @@ h1{
    MOBILE
 ══════════════════════════════════════════ */
 @media(max-width:480px){
-  .envelope-wrap.open .letter{transform:translateY(-280px) scale(1)}
+  .envelope-wrap.open .letter{transform:translateY(-380px) scale(1)}
   .timeline{padding-left:2rem}
   .timeline::before{left:10px}
   .timeline-dot{left:-1.7rem}
@@ -1217,7 +1216,7 @@ h1{
    ANIMATED CAKE + BLOW CANDLES
 ══════════════════════════════════════════ */
 .cake-section{text-align:center}
-#cakeCanvas{display:block;margin:0 auto;max-width:300px;width:100%}
+#cakeCanvas{display:block;margin:0 auto;max-width:98vw;width:100%}
 .blow-instruction{
   font-family:'Dancing Script',cursive;font-size:clamp(1.1rem,4vw,1.4rem);
   color:#ffd4e5;margin:1rem 0 .5rem;min-height:50px;transition:opacity .4s;
@@ -2058,7 +2057,7 @@ h1{
   <div class="section cake-section">
     <h2 class="section-title">Blow the Candles 🕯️</h2>
     <p class="section-sub">Make a wish and blow into your mic 🌬️</p>
-    <canvas id="cakeCanvas" height="260"></canvas>
+    <canvas id="cakeCanvas" height="520"></canvas>
     <p class="blow-instruction" id="blowInstruction">Tap the button then blow into your phone 🎂</p>
     <button class="mic-btn" id="micBtn" onclick="startBlowing()">🎤 Start</button>
     <p class="candle-progress" id="candleProgress"></p>
@@ -2264,7 +2263,7 @@ h1{
     <button class="spotify-modal-close" onclick="document.getElementById('spotifyModal').classList.remove('active')">✕</button>
     <p class="spotify-modal-title">🎵 Our Song</p>
     <iframe id="spotifyFrame"
-      src="https://open.spotify.com/embed/track/6G9YlbU3ByPJQvOFDRdwyM?utm_source=generator&theme=0"
+      src="https://open.spotify.com/embed/track/6G9YlbU3ByPJQvOFDRdwyM?utm_source=generator&theme=0&t=0"
       width="100%" height="152" frameborder="0"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy" style="border-radius:14px">
@@ -3381,7 +3380,7 @@ function revealNextPanel(num){
 (function initCake(){
   const c=document.getElementById('cakeCanvas');
   if(!c) return;
-  c.width=c.parentElement.offsetWidth||300;
+  c.width=c.parentElement.offsetWidth||500;
   const W=c.width, H=c.height;
   const ctx=c.getContext('2d');
   const TOTAL=18;
